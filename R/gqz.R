@@ -1,0 +1,112 @@
+
+
+gqz <- function(A,B, sort=c("N","-","+","S","B","R")) {
+    if(!is.matrix(A)) stop("Argument A should be a matrix")
+    if(!is.matrix(B)) stop("Argument B should be a matrix")
+    dimA <- dim(A)
+    if(dimA[1]!=dimA[2]) stop("A must be a square matrix")
+    dimB <- dim(B)
+    if(dimB[1]!=dimB[2]) stop("B must be a square matrix")
+    if(dimA[1]!=dimB[1]) stop("A and B must have the same dimensions")
+
+    if(dimA[1]==0) stop("Matrix A has zero rows/columns")
+    if(dimB[1]==0) stop("Matrix B has zero rows/columns")
+
+    if(!all(is.finite(A))) stop("Matrix A may not contain infinite/NaN/NA")
+    if(!all(is.finite(B))) stop("Matrix B may not contain infinite/NaN/NA")
+
+    if(is.complex(A) || is.complex(B)) {
+        if(!is.complex(A)) storage.mode(A) <- "complex"
+        if(!is.complex(B)) storage.mode(B) <- "complex" 
+        geigen.xzgges(A,B, sort)         
+    } else {
+        # none of the matrices is complex ==> use double routines
+        if( !is.double(A) ) storage.mode(A) <- "double"
+        if( !is.double(B) ) storage.mode(B) <- "double"
+        geigen.xdgges(A,B, sort)
+    }
+}       
+
+geigen.xdgges <- function(A,B, sort) {
+
+    # interface to xdgges which calls Lapack dgges
+    # for generalized eigenvalue problem
+    # general real matrices
+
+    jobvsl.char <- "V"
+    jobvsr.char <- "V"
+    sort.char <- substr(sort,1,1)[1]
+
+    dimA <- dim(A)
+    n <- dimA[1]
+
+    # calculate optimal workspace
+    lwork <- -1L
+    work <- numeric(1)
+    sdim <- 0L
+    bwork <- logical(n)
+
+    z <- .Fortran("xdgges", jobvsl.char, jobvsr.char, sort.char,
+                            n, A, n, B, n, sdim, numeric(1), numeric(1),
+                            numeric(1), numeric(1), n, numeric(1), n,
+                            work=work, lwork, bwork, info=integer(1L), PACKAGE="geigen")
+    # print(z$work[1])
+    lwork <- as.integer(z$work[1])
+    # print(lwork)
+    lwork <- max(lwork, as.integer(8*n+16))
+
+    work <- numeric(lwork)
+
+    z <- .Fortran("xdgges", jobvsl.char, jobvsr.char, sort.char,
+                            n, A=A, n, B=B, n, sdim=sdim, alphar=numeric(n), alphai=numeric(n),
+                            beta=numeric(n), vsl=matrix(0,nrow=n,ncol=n),n, vsr=matrix(0,nrow=n,ncol=n), n,
+                            work, lwork, bwork, info=integer(1L), PACKAGE="geigen")
+
+    if( z$info > 0 ) stop(paste("Lapack dgges fails with info=",z$info))
+
+    return(list(S=z$A, T=z$B, sdim=z$sdim, alphar=z$alphar, alphai=z$alphai, beta=z$beta, Q=z$vsl, Z=z$vsr))
+
+}
+
+geigen.xzgges <- function(A,B, sort) {
+
+    # interface to xzgges which calls Lapack zgges
+    # for generalized eigenvalue problem
+    # general complex matrices  (A and B must be complex; tested above)
+    
+    jobvsl.char <- "V"
+    jobvsr.char <- "V"
+    sort.char <- substr(sort,1,1)[1]#"N"
+
+    dimA <- dim(A)
+    n <- dimA[1]
+
+    # calculate optimal workspace
+    lwork <- -1L
+    work <- complex(1)
+    sdim <- 0L
+    bwork <- logical(n)
+
+    z <- .Fortran("xzgges", jobvsl.char, jobvsr.char, sort.char,
+                            n, A, n, B, n, sdim, complex(1), complex(1),
+                            complex(1), n, complex(1), n,
+                            work=work, lwork, numeric(1), bwork, info=integer(1L), PACKAGE="geigen")
+    # print(z$work[1])
+    lwork <- as.integer(Re(z$work[1]))
+    # print(lwork)
+    lwork <- max(lwork, as.integer(8*n+16))
+
+    work <- complex(lwork)
+    rwork <- numeric(8*n)
+    tmp <- 0+0i       
+    
+    z <- .Fortran("xzgges", jobvsl.char, jobvsr.char, sort.char,
+                            n, A=A, n, B=B, n, sdim=sdim, alpha=complex(n),
+                            beta=complex(n), vsl=matrix(tmp,nrow=n,ncol=n),n, vsr=matrix(tmp,nrow=n,ncol=n), n,
+                            work, lwork, rwork, bwork, info=integer(1L), PACKAGE="geigen")
+
+    if( z$info > 0 ) stop(paste("Lapack dgges fails with info=",z$info))
+
+    return(list(S=z$A, T=z$B, sdim=z$sdim, alpha=z$alpha, beta=z$beta, Q=z$vsl, Z=z$vsr))
+
+}
