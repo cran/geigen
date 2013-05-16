@@ -1,0 +1,274 @@
+
+geigen <- function(A, B, symmetric, only.values=FALSE) {
+
+    if(!is.matrix(A)) stop("Argument A should be a matrix")
+    if(!is.matrix(B)) stop("Argument B should be a matrix")
+    dimA <- dim(A)
+    if(dimA[1]!=dimA[2]) stop("A must be a square matrix")
+    dimB <- dim(B)
+    if(dimB[1]!=dimB[2]) stop("B must be a square matrix")
+    if(dimA[1]!=dimB[1]) stop("A and B must have the same dimensions")
+
+    if(dimA[1]==0) stop("Matrix A has zero rows/columns")
+    if(dimB[1]==0) stop("Matrix B has zero rows/columns")
+
+    if(!all(is.finite(A))) stop("Matrix A may not contain infinite/NaN/NA")
+    if(!all(is.finite(B))) stop("Matrix B may not contain infinite/NaN/NA")
+
+    if( missing(symmetric) ) {
+        # test if both matrices are symmetric
+        # both should be symmetric  for symmetric algorithm
+        # expensive test
+        symmetric <- isSymmetric(A) && isSymmetric(B)
+    }
+
+    complex.A <- is.complex(A)
+    complex.B <- is.complex(B)
+    complex.AB <- FALSE
+    if( complex.A || complex.B ) {
+        # at least one matrix is complex ==> use complex routines
+        if( !complex.A ) storage.mode(A) <- "complex"
+        if( !complex.B ) storage.mode(B) <- "complex"
+        complex.AB <- TRUE
+    } else {
+        # none of the matrices is complex ==> use double routines
+        if( !is.double(A) ) storage.mode(A) <- "double"
+        if( !is.double(B) ) storage.mode(B) <- "double"
+    }
+
+    if( symmetric ) {
+        if( complex.AB ) {
+            geigen.zhegv(A, B, only.values)
+        } else {
+            geigen.dsygv(A, B, only.values)
+        }
+    } else {
+        if( complex.AB ) {
+            geigen.zggev(A, B, only.values)
+        } else {
+            geigen.dggev(A, B, only.values)
+        }
+    }
+}
+
+geigen.dggev <- function(A,B, only.values=FALSE) {
+
+    # interface to Lapack dggev
+    # for generalized eigenvalue problem
+    # general matrices
+    # for symmetric matrices use dsygv
+
+    jobvl.char <- "N"
+    jobvr.char <- if(!only.values) "V" else "N"
+
+    dimA <- dim(A)
+    n <- dimA[1]
+
+    # calculate optimal workspace
+    lwork <- -1L
+    work <- numeric(1)
+    z <- .Fortran("xdggev", jobvl.char, jobvr.char, n, A, n, B, n, numeric(1), numeric(1),
+                            numeric(1), numeric(1), n, numeric(1), n,
+                            work=work, lwork,info=integer(1L))
+    # print(z$work[1])
+    lwork <- as.integer(z$work[1])
+    # print(lwork)
+    lwork <- max(lwork, as.integer(8*n))
+
+    work <- numeric(lwork)
+
+    if( !only.values )
+        z <- .Fortran("xdggev", jobvl.char, jobvr.char, n, A, n, B, n, alphar=numeric(n), alphai=numeric(n),
+                                beta=numeric(n), numeric(1),1L, vr=matrix(0,nrow=n,ncol=n), n,
+                                work, lwork,info=integer(1L), PACKAGE="geigen")
+    else
+        z <- .Fortran("xdggev", jobvl.char, jobvr.char, n, A, n, B, n, alphar=numeric(n), alphai=numeric(n),
+                                beta=numeric(n), numeric(1), 1L,  numeric(1), 1L,
+                                work, lwork,info=integer(1L), PACKAGE="geigen")
+
+    if( z$info > 0 ) stop(paste("Lapack  dggev fails with info=",z$info))
+    
+    # warning: z$beta may contain exact zeros
+    # so dividing by z$beta can result in Inf values
+    
+    if( all(z$alphai==0) ) {
+        values <- z$alphar/z$beta
+        if(!only.values) vectors <- z$vr
+    }
+    else {
+        # at least one alphai is <> 0
+        # alphai == 0 implies real eigenvalue
+        # alphai  > 0 implies a complex conjugate pair of eigenvalues
+        #             alphai[j] >0 ==> alphai[j+1] < 0
+
+        values  <- complex(real=z$alphar, imaginary=z$alphai)/z$beta
+        for(j in which(z$alphai==0)) values[j] <- complex(real=z$alphar[j]/z$beta[j], imaginary=0)
+
+        if( !only.values ) {
+            vectors <- z$vr
+            storage.mode(vectors) <- "complex"
+            for( j in which(z$alphai>0) ) {
+                vectors[,j]   <- complex(real=z$vr[,j], imaginary= z$vr[,j+1])
+                vectors[,j+1] <- complex(real=z$vr[,j], imaginary=-z$vr[,j+1])
+            }
+        }
+    }
+
+    if( !only.values )
+        return(list(values=values, vectors=vectors))
+    else
+        return(list(values=values, vectors=NULL))
+}
+
+# Generalized eigenvalue problem for symmetric pd matrix
+# using Lapack dsygv
+# A and B symmetric and B positive definite
+
+geigen.dsygv <- function(A,B, only.values=FALSE) {
+
+    # interface to Lapack dsygv
+    # for generalized eigenvalue problem
+    # symmetric (p.d.) matrices
+
+    # if uplo=="U" upper triangular part of A, B contains upper triangular parts of matrix A, B
+    # if uplo=="L" lower triangular part of A, B contains lower triangular parts of matrix A, B
+    
+    # ptype
+    #   Specifies the problem type to be solved:
+    #   = 1:  A*x = (lambda)*B*x
+    #   = 2:  A*B*x = (lambda)*x
+    #   = 3:  B*A*x = (lambda)*x
+
+    ptype <- 1L
+    # uplo <- match.arg(uplo)
+    uplo <- "L" #c("U","L")
+
+    dimA <- dim(A)
+    n <- dimA[1]
+
+    jobev.char <- if(!only.values) "V" else "N"
+
+    # calculate optimal workspace
+    lwork <- -1L
+    work <- numeric(1)
+    z <- .Fortran("xdsygv", as.integer(ptype), jobev.char, uplo, n, numeric(1), n, numeric(1), n,
+                            numeric(1), work=work, lwork, info=integer(1L), PACKAGE="geigen")
+    # print(z$work[1])
+    lwork <- as.integer(z$work[1])
+    # print(lwork)
+    lwork <- max(lwork, as.integer(3*n-1))
+    work <- numeric(lwork)
+
+    z <- .Fortran("xdsygv", as.integer(ptype), jobev.char, uplo, n, E=A, n, B, n,
+                            w=numeric(n), work, lwork, info=integer(1L), PACKAGE="geigen")
+
+    if( z$info > 0 ) stop(paste("Lapack dsygv fails with info=",z$info))
+
+    if( !only.values )
+        return(list(values=z$w, vectors=z$E))
+    else
+        return(list(values=z$w, vectors=NULL))
+}
+
+geigen.zggev <- function(A,B, only.values=FALSE) {
+
+    # interface to Lapack zggev
+    # for generalized eigenvalue problem
+    # for symmetric matrices use zhegv
+
+    jobvl.char <- "N"
+    jobvr.char <- if(!only.values) "V" else "N"
+
+    dimA <- dim(A)
+    n <- dimA[1]
+
+    # calculate optimal workspace
+    lwork <- -1L
+    work <- complex(1)
+    rwork <- numeric(1)
+    z <- .Fortran("zggev", jobvl.char, jobvr.char, n, A, n, B, n, complex(1), complex(1),
+                           complex(1), n, complex(1), n,
+                           work=work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
+    # print(z$work[1])
+    lwork <- as.integer(Re(z$work[1]))
+    # print(lwork)
+    lwork <- max(lwork, as.integer(2*n))
+    work <- complex(lwork)
+
+    rwork <- numeric(8*n)
+
+    tmp <- 0+0i
+
+    if( !only.values )
+        z <- .Fortran("zggev", jobvl.char, jobvr.char, n, A, n, B, n, alpha=complex(n),
+                               beta=complex(n), numeric(1),1L, vr=matrix(tmp,nrow=n,ncol=n), n,
+                               work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
+    else
+        z <- .Fortran("zggev", jobvl.char, jobvr.char, n, A, n, B, n, alpha=complex(n),
+                               beta=complex(n), numeric(1), 1L,  numeric(1), 1L,
+                               work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
+
+    if( z$info > 0 ) stop(paste("Lapack zggev fails with info=",z$info))
+
+    # simplistic calculation of eigenvalues (see caveat in source zggev)
+    values <- z$alpha/z$beta
+
+     if( !only.values )
+        return(list(values=values, vectors=z$vr))
+    else
+        return(list(values=values, vectors=NULL))
+}
+
+# Generalized eigenvalue problem for hermitian matrix
+# using Lapack zhegv
+# A and B are Hermitian and B is positive definite
+
+geigen.zhegv <- function(A,B, only.values=FALSE) {
+
+    # A, B hermitian
+    # B also positive definite
+    # interface to Lapack zhegv
+    # for generalized eigenvalue problem
+    # symmetric (p.d.) matrices
+
+    # if uplo=="U" upper triangular part of A, B contains upper triangular parts of matrix A, B
+    # if uplo=="L" lower triangular part of A, B contains lower triangular parts of matrix A, B
+    
+    # ptype
+    #   Specifies the problem type to be solved:
+    #   = 1:  A*x = (lambda)*B*x
+    #   = 2:  A*B*x = (lambda)*x
+    #   = 3:  B*A*x = (lambda)*x
+    
+    ptype <- 1L
+    # uplo <- match.arg(uplo)
+    uplo <- "L" #c("U","L")
+
+    dimA <- dim(A)
+    n <- dimA[1]
+
+    jobev.char <- if(!only.values) "V" else "N"
+
+    # calculate optimal workspace
+    lwork <- -1L
+    work <- complex(1)
+    z <- .Fortran("zhegv", as.integer(ptype), jobev.char, uplo, n, complex(1), n, complex(1), n,
+                           w=numeric(1), work=work, lwork,  numeric(1), info=integer(1L), PACKAGE="geigen")
+    # print(z$work[1])
+    lwork <- as.integer(Re(z$work[1]))
+    # print(lwork)
+    lwork <- max(lwork, as.integer(2*n-1))
+    work <- complex(lwork)
+
+    rwork <- numeric(3*n-2)
+
+    z <- .Fortran("zhegv", as.integer(ptype), jobev.char, uplo, n, E=A, n, B, n,
+                           w=numeric(n), work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
+
+    if( z$info > 0 ) stop(paste("Lapack zhegv fails with info=",z$info))
+
+    if( !only.values )
+        return(list(values=z$w, vectors=z$E))
+    else
+        return(list(values=z$w, vectors=NULL))
+}
