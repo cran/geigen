@@ -58,8 +58,11 @@ geigen.dggev <- function(A,B, only.values=FALSE) {
     # general matrices
     # for symmetric matrices use dsygv
 
-    jobvl.char <- "N"
-    jobvr.char <- if(!only.values) "V" else "N"
+    # jobvl.char <- "N"
+    # jobvr.char <- if(!only.values) "V" else "N"
+
+    kjobvl <- 1L
+    kjobvr <- if(!only.values) 2L else 1L
 
     dimA <- dim(A)
     n <- dimA[1]
@@ -67,7 +70,7 @@ geigen.dggev <- function(A,B, only.values=FALSE) {
     # calculate optimal workspace
     lwork <- -1L
     work <- numeric(1)
-    z <- .Fortran("xdggev", jobvl.char, jobvr.char, n, A, n, B, n, numeric(1), numeric(1),
+    z <- .Fortran("xdggev", kjobvl, kjobvr, n, A, n, B, n, numeric(1), numeric(1),
                             numeric(1), numeric(1), n, numeric(1), n,
                             work=work, lwork,info=integer(1L))
     # print(z$work[1])
@@ -78,19 +81,19 @@ geigen.dggev <- function(A,B, only.values=FALSE) {
     work <- numeric(lwork)
 
     if( !only.values )
-        z <- .Fortran("xdggev", jobvl.char, jobvr.char, n, A, n, B, n, alphar=numeric(n), alphai=numeric(n),
+        z <- .Fortran("xdggev", kjobvl, kjobvr, n, A, n, B, n, alphar=numeric(n), alphai=numeric(n),
                                 beta=numeric(n), numeric(1),1L, vr=matrix(0,nrow=n,ncol=n), n,
                                 work, lwork,info=integer(1L), PACKAGE="geigen")
     else
-        z <- .Fortran("xdggev", jobvl.char, jobvr.char, n, A, n, B, n, alphar=numeric(n), alphai=numeric(n),
+        z <- .Fortran("xdggev", kjobvl, kjobvr, n, A, n, B, n, alphar=numeric(n), alphai=numeric(n),
                                 beta=numeric(n), numeric(1), 1L,  numeric(1), 1L,
                                 work, lwork,info=integer(1L), PACKAGE="geigen")
 
     if( z$info > 0 ) stop(paste("Lapack  dggev fails with info=",z$info))
-    
+
     # warning: z$beta may contain exact zeros
     # so dividing by z$beta can result in Inf values
-    
+
     if( all(z$alphai==0) ) {
         values <- z$alphar/z$beta
         if(!only.values) vectors <- z$vr
@@ -132,7 +135,7 @@ geigen.dsygv <- function(A,B, only.values=FALSE) {
 
     # if uplo=="U" upper triangular part of A, B contains upper triangular parts of matrix A, B
     # if uplo=="L" lower triangular part of A, B contains lower triangular parts of matrix A, B
-    
+
     # ptype
     #   Specifies the problem type to be solved:
     #   = 1:  A*x = (lambda)*B*x
@@ -141,17 +144,19 @@ geigen.dsygv <- function(A,B, only.values=FALSE) {
 
     ptype <- 1L
     # uplo <- match.arg(uplo)
-    uplo <- "L" #c("U","L")
+    # uplo <- "L" #c("U","L")
+    kuplo <- 2L
 
     dimA <- dim(A)
     n <- dimA[1]
 
-    jobev.char <- if(!only.values) "V" else "N"
+    # jobev.char <- if(!only.values) "V" else "N"
+    kjobev <- if(!only.values) 2L else 1L
 
     # calculate optimal workspace
     lwork <- -1L
     work <- numeric(1)
-    z <- .Fortran("xdsygv", as.integer(ptype), jobev.char, uplo, n, numeric(1), n, numeric(1), n,
+    z <- .Fortran("xdsygv", as.integer(ptype), kjobev, kuplo, n, numeric(1), n, numeric(1), n,
                             numeric(1), work=work, lwork, info=integer(1L), PACKAGE="geigen")
     # print(z$work[1])
     lwork <- as.integer(z$work[1])
@@ -159,7 +164,7 @@ geigen.dsygv <- function(A,B, only.values=FALSE) {
     lwork <- max(lwork, as.integer(3*n-1))
     work <- numeric(lwork)
 
-    z <- .Fortran("xdsygv", as.integer(ptype), jobev.char, uplo, n, E=A, n, B, n,
+    z <- .Fortran("xdsygv", as.integer(ptype), kjobev, kuplo, n, E=A, n, B, n,
                             w=numeric(n), work, lwork, info=integer(1L), PACKAGE="geigen")
 
     if( z$info > 0 ) stop(paste("Lapack dsygv fails with info=",z$info))
@@ -176,8 +181,11 @@ geigen.zggev <- function(A,B, only.values=FALSE) {
     # for generalized eigenvalue problem
     # for symmetric matrices use zhegv
 
-    jobvl.char <- "N"
-    jobvr.char <- if(!only.values) "V" else "N"
+    # jobvl.char <- "N"
+    # jobvr.char <- if(!only.values) "V" else "N"
+
+    kjobvl <- 1L
+    kjobvr <- if(!only.values) 2L else 1L
 
     dimA <- dim(A)
     n <- dimA[1]
@@ -186,7 +194,7 @@ geigen.zggev <- function(A,B, only.values=FALSE) {
     lwork <- -1L
     work <- complex(1)
     rwork <- numeric(1)
-    z <- .Fortran("zggev", jobvl.char, jobvr.char, n, A, n, B, n, complex(1), complex(1),
+    z <- .Fortran("xzggev", kjobvl, kjobvr, n, A, n, B, n, complex(1), complex(1),
                            complex(1), n, complex(1), n,
                            work=work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
     # print(z$work[1])
@@ -200,11 +208,11 @@ geigen.zggev <- function(A,B, only.values=FALSE) {
     tmp <- 0+0i
 
     if( !only.values )
-        z <- .Fortran("zggev", jobvl.char, jobvr.char, n, A, n, B, n, alpha=complex(n),
+        z <- .Fortran("xzggev", kjobvl, kjobvr, n, A, n, B, n, alpha=complex(n),
                                beta=complex(n), numeric(1),1L, vr=matrix(tmp,nrow=n,ncol=n), n,
                                work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
     else
-        z <- .Fortran("zggev", jobvl.char, jobvr.char, n, A, n, B, n, alpha=complex(n),
+        z <- .Fortran("xzggev", kjobvl, kjobvr, n, A, n, B, n, alpha=complex(n),
                                beta=complex(n), numeric(1), 1L,  numeric(1), 1L,
                                work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
 
@@ -233,26 +241,28 @@ geigen.zhegv <- function(A,B, only.values=FALSE) {
 
     # if uplo=="U" upper triangular part of A, B contains upper triangular parts of matrix A, B
     # if uplo=="L" lower triangular part of A, B contains lower triangular parts of matrix A, B
-    
+
     # ptype
     #   Specifies the problem type to be solved:
     #   = 1:  A*x = (lambda)*B*x
     #   = 2:  A*B*x = (lambda)*x
     #   = 3:  B*A*x = (lambda)*x
-    
+
     ptype <- 1L
     # uplo <- match.arg(uplo)
-    uplo <- "L" #c("U","L")
+    # uplo <- "L" #c("U","L")
+    kuplo <- 2L
 
     dimA <- dim(A)
     n <- dimA[1]
 
-    jobev.char <- if(!only.values) "V" else "N"
+    # jobev.char <- if(!only.values) "V" else "N"
+    kjobev <- if(!only.values) 2L else 1L
 
     # calculate optimal workspace
     lwork <- -1L
     work <- complex(1)
-    z <- .Fortran("zhegv", as.integer(ptype), jobev.char, uplo, n, complex(1), n, complex(1), n,
+    z <- .Fortran("xzhegv", as.integer(ptype), kjobev, kuplo, n, complex(1), n, complex(1), n,
                            w=numeric(1), work=work, lwork,  numeric(1), info=integer(1L), PACKAGE="geigen")
     # print(z$work[1])
     lwork <- as.integer(Re(z$work[1]))
@@ -262,7 +272,7 @@ geigen.zhegv <- function(A,B, only.values=FALSE) {
 
     rwork <- numeric(3*n-2)
 
-    z <- .Fortran("zhegv", as.integer(ptype), jobev.char, uplo, n, E=A, n, B, n,
+    z <- .Fortran("xzhegv", as.integer(ptype), kjobev, kuplo, n, E=A, n, B, n,
                            w=numeric(n), work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
 
     if( z$info > 0 ) stop(paste("Lapack zhegv fails with info=",z$info))

@@ -1,14 +1,15 @@
 
 c interface to Lapack's dgges
+c accept character arguments with declared length 255
 
-      subroutine xdgges(jobvsl, jobvsr, evsort, n, a, lda, b, ldb,
+      subroutine xdgges(kjobvsl, kjobvsr, kevsort, n, a, lda, b, ldb,
      *                  sdim, alphar, alphai, beta, vsl, ldvsl, vsr,
      *                  ldvsr, work, lwork, bwork, info )
 
 c     copied from dgges with argument selctg removed
 c
 c     .. Scalar Arguments ..
-      character*1        jobvsl, jobvsr, evsort
+      integer            kjobvsl, kjobvsr, kevsort
       integer            info, lda, ldb, ldvsl, ldvsr, lwork, n, sdim
 c     ..
 c     .. Array Arguments ..
@@ -21,29 +22,35 @@ c     .. Function Arguments ..
       logical            selctg,evzero,revneg,revpos,evudi,evudo
       external           selctg,evzero,revneg,revpos,evudi,evudo
       
+      character         jobvsl, jobvsr, evsort
+      
+      jobvsl = 'NV'(kjobvsl:kjobvsl)
+      jobvsr = 'NV'(kjobvsr:kjobvsr)
+      evsort = 'N-+SBR'(kevsort:kevsort)
+      
       select case (evsort)
-      case ("N","n")
-          call dgges(jobvsl, jobvsr, "N", selctg, n, a, lda, b, ldb,
+      case ('N')
+          call dgges(jobvsl, jobvsr, 'N', selctg, n, a, lda, b, ldb,
      *               sdim, alphar, alphai, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, bwork, info)
-      case ("-")
-          call dgges(jobvsl, jobvsr, "S", revneg, n, a, lda, b, ldb,
+      case ('-')
+          call dgges(jobvsl, jobvsr, 'S', revneg, n, a, lda, b, ldb,
      *               sdim, alphar, alphai, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, bwork, info)
-      case ("+")
-          call dgges(jobvsl, jobvsr, "S", revpos, n, a, lda, b, ldb,
+      case ('+')
+          call dgges(jobvsl, jobvsr, 'S', revpos, n, a, lda, b, ldb,
      *               sdim, alphar, alphai, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, bwork, info)
-      case ("S","s")
-          call dgges(jobvsl, jobvsr, "S", evudi,  n, a, lda, b, ldb,
+      case ('S')
+          call dgges(jobvsl, jobvsr, 'S', evudi,  n, a, lda, b, ldb,
      *               sdim, alphar, alphai, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, bwork, info)
-      case ("B","b")
-          call dgges(jobvsl, jobvsr, "S", evudo,  n, a, lda, b, ldb,
+      case ('B')
+          call dgges(jobvsl, jobvsr, 'S', evudo,  n, a, lda, b, ldb,
      *               sdim, alphar, alphai, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, bwork, info)
-      case ("R","r")
-          call dgges(jobvsl, jobvsr, "S", evzero, n, a, lda, b, ldb,
+      case ('R')
+          call dgges(jobvsl, jobvsr, 'S', evzero, n, a, lda, b, ldb,
      *               sdim, alphar, alphai, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, bwork, info)
       

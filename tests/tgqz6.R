@@ -12,25 +12,25 @@ B <- matrix(runif(n*n),nrow=n)+0i
 
 z <- gqz(A, B,"-")
 testqz(A,B,z)
-gev <- z$alpha/z$beta
-length(which(Re(gev)<0)) == z$sdim
+gev <- z$alpha/z$beta  
+all(which(Re(gev)<0) == seq_len(z$sdim))
 
 z <- gqz(A, B,"+")
 testqz(A,B,z)
-gev <- z$alpha/z$beta
-length(which(Re(gev)>0)) == z$sdim
+gev <- z$alpha/z$beta  
+all(which(Re(gev)>0) == seq_len(z$sdim))
 
 z <- gqz(A, B,"S")
 testqz(A,B,z)
 gev <- z$alpha/z$beta
-length(which(abs(gev)<1)) == z$sdim
+all(which(abs(gev)<1) == seq_len(z$sdim))
 
 z <- gqz(A, B,"B")
 testqz(A,B,z)
-gev <- z$alpha/z$beta
-length(which(abs(gev)>1)) == z$sdim
+gev <- z$alpha/z$beta   
+all(which(abs(gev)>1) == seq_len(z$sdim))
 
 z <- gqz(A, B,"R")
 testqz(A,B,z)
-gev <- z$alpha/z$beta
-length(which(Im(gev)==0)) == z$sdim
+gev <- z$alpha/z$beta   
+z$sdim == 0

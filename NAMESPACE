@@ -1,2 +1,2 @@
 useDynLib(geigen)
-export(geigen,gqz) #exportPattern"^[[:alpha:]]+")
+export(geigen,gqz)

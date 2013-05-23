@@ -30,38 +30,38 @@ Type 'q()' to quit R.
 > z <- gqz(A, B,"-")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
-> gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-> length(which(Re(gev)<0)) == z$sdim
+> gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta  
+> all(which(Re(gev)<0) == seq_len(z$sdim))
 [1] TRUE
 > 
 > z <- gqz(A, B,"+")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
 > gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-> length(which(Re(gev)>0)) == z$sdim
+> all(which(Re(gev)>0) == seq_len(z$sdim))
 [1] TRUE
 > 
 > z <- gqz(A, B,"S")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
 > gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-> length(which(abs(gev)<1)) == z$sdim
+> all(which(abs(gev)<1) == seq_len(z$sdim))
 [1] TRUE
 > 
 > z <- gqz(A, B,"B")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
 > gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-> length(which(abs(gev)>1)) == z$sdim
+> all(which(abs(gev)>1) == seq_len(z$sdim))
 [1] TRUE
 > 
 > z <- gqz(A, B,"R")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
 > gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-> length(which(Im(gev)==0)) == z$sdim
+> all(which(Im(gev)==0) == seq_len(z$sdim))
 [1] TRUE
 > 
 > proc.time()
    user  system elapsed 
-  0.309   0.047   0.348 
+  0.302   0.047   0.333 

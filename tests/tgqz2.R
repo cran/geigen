@@ -12,25 +12,25 @@ B <- matrix(runif(n*n),nrow=n)
 
 z <- gqz(A, B,"-")
 testqz(A,B,z)
-gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-length(which(Re(gev)<0)) == z$sdim
+gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta  
+all(which(Re(gev)<0) == seq_len(z$sdim))
 
 z <- gqz(A, B,"+")
 testqz(A,B,z)
 gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-length(which(Re(gev)>0)) == z$sdim
+all(which(Re(gev)>0) == seq_len(z$sdim))
 
 z <- gqz(A, B,"S")
 testqz(A,B,z)
 gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-length(which(abs(gev)<1)) == z$sdim
+all(which(abs(gev)<1) == seq_len(z$sdim))
 
 z <- gqz(A, B,"B")
 testqz(A,B,z)
 gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-length(which(abs(gev)>1)) == z$sdim
+all(which(abs(gev)>1) == seq_len(z$sdim))
 
 z <- gqz(A, B,"R")
 testqz(A,B,z)
 gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-length(which(Im(gev)==0)) == z$sdim
+all(which(Im(gev)==0) == seq_len(z$sdim))

@@ -16,3 +16,11 @@ B <- matrix(c( 1.0-5i,  1.6+1.2i , -3.0+0i,       -1i,
 
 z <- gqz(A, B,"R")
 testqz(A,B,z)
+
+z <- gqz(A, B)
+testqz(A,B,z)
+
+zn <- gqz(A, B, "N")
+testqz(A,B,zn)
+
+identical(z,zn)

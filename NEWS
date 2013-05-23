@@ -1,3 +1,12 @@
+1.1
+
+o corrected error message in gqz()
+o stricter test of sorting for gqz()
+o modified all intermediate Fortran subroutines to have integer arguments
+  which are transferred to character*1 variables for calling the actual Lapack subroutines
+  since on some platforms the Fortran runtime did not accept character in routines called by R
+o renamed src/xdgg.f to src/xdggev.f
+
 1.0
 
 o initial version
