@@ -17,3 +17,10 @@ B <- matrix(c(4806.033, 1767.480, 2622.744,
 
 z <- gqz(A, B)
 testqz(A,B,z)
+z$sdim == 0
+
+zn <- gqz(A, B, "N")
+testqz(A,B,zn)
+z$sdim == 0
+
+identical(z,zn)

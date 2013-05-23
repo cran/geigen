@@ -1,6 +1,9 @@
 
 
 gqz <- function(A,B, sort=c("N","-","+","S","B","R")) {
+    
+    sort <- match.arg(sort)
+    
     if(!is.matrix(A)) stop("Argument A should be a matrix")
     if(!is.matrix(B)) stop("Argument B should be a matrix")
     dimA <- dim(A)
@@ -14,39 +17,45 @@ gqz <- function(A,B, sort=c("N","-","+","S","B","R")) {
 
     if(!all(is.finite(A))) stop("Matrix A may not contain infinite/NaN/NA")
     if(!all(is.finite(B))) stop("Matrix B may not contain infinite/NaN/NA")
-
+    
+    ksort <- match(sort, c("N","-","+","S","B","R"))
+    # to be absolutely sure
+    if(is.na(ksort)) stop("invalid sort argument")
+    
     if(is.complex(A) || is.complex(B)) {
         if(!is.complex(A)) storage.mode(A) <- "complex"
         if(!is.complex(B)) storage.mode(B) <- "complex" 
-        geigen.xzgges(A,B, sort)         
+        geigen.xzgges(A,B, ksort)         
     } else {
         # none of the matrices is complex ==> use double routines
         if( !is.double(A) ) storage.mode(A) <- "double"
         if( !is.double(B) ) storage.mode(B) <- "double"
-        geigen.xdgges(A,B, sort)
+        geigen.xdgges(A,B, ksort)
     }
 }       
 
-geigen.xdgges <- function(A,B, sort) {
+geigen.xdgges <- function(A,B, ksort) {
 
     # interface to xdgges which calls Lapack dgges
     # for generalized eigenvalue problem
     # general real matrices
 
-    jobvsl.char <- "V"
-    jobvsr.char <- "V"
-    sort.char <- substr(sort,1,1)[1]
-
+    # jobvsl.char <- "V"
+    # jobvsr.char <- "V"
+    
+    kjobvsl <- 2L
+    kjobvsr <- 2L
+    
     dimA <- dim(A)
     n <- dimA[1]
-
+    
     # calculate optimal workspace
     lwork <- -1L
     work <- numeric(1)
     sdim <- 0L
     bwork <- logical(n)
 
-    z <- .Fortran("xdgges", jobvsl.char, jobvsr.char, sort.char,
+    z <- .Fortran("xdgges", kjobvsl, kjobvsr, ksort,
                             n, A, n, B, n, sdim, numeric(1), numeric(1),
                             numeric(1), numeric(1), n, numeric(1), n,
                             work=work, lwork, bwork, info=integer(1L), PACKAGE="geigen")
@@ -57,7 +66,7 @@ geigen.xdgges <- function(A,B, sort) {
 
     work <- numeric(lwork)
 
-    z <- .Fortran("xdgges", jobvsl.char, jobvsr.char, sort.char,
+    z <- .Fortran("xdgges", kjobvsl, kjobvsr, ksort,
                             n, A=A, n, B=B, n, sdim=sdim, alphar=numeric(n), alphai=numeric(n),
                             beta=numeric(n), vsl=matrix(0,nrow=n,ncol=n),n, vsr=matrix(0,nrow=n,ncol=n), n,
                             work, lwork, bwork, info=integer(1L), PACKAGE="geigen")
@@ -68,15 +77,17 @@ geigen.xdgges <- function(A,B, sort) {
 
 }
 
-geigen.xzgges <- function(A,B, sort) {
+geigen.xzgges <- function(A,B, ksort) {
 
     # interface to xzgges which calls Lapack zgges
     # for generalized eigenvalue problem
     # general complex matrices  (A and B must be complex; tested above)
     
-    jobvsl.char <- "V"
-    jobvsr.char <- "V"
-    sort.char <- substr(sort,1,1)[1]#"N"
+    # jobvsl.char <- "V"
+    # jobvsr.char <- "V"
+    
+    kjobvsl <- 2L
+    kjobvsr <- 2L
 
     dimA <- dim(A)
     n <- dimA[1]
@@ -87,7 +98,7 @@ geigen.xzgges <- function(A,B, sort) {
     sdim <- 0L
     bwork <- logical(n)
 
-    z <- .Fortran("xzgges", jobvsl.char, jobvsr.char, sort.char,
+    z <- .Fortran("xzgges", kjobvsl, kjobvsr, ksort,
                             n, A, n, B, n, sdim, complex(1), complex(1),
                             complex(1), n, complex(1), n,
                             work=work, lwork, numeric(1), bwork, info=integer(1L), PACKAGE="geigen")
@@ -100,12 +111,12 @@ geigen.xzgges <- function(A,B, sort) {
     rwork <- numeric(8*n)
     tmp <- 0+0i       
     
-    z <- .Fortran("xzgges", jobvsl.char, jobvsr.char, sort.char,
+    z <- .Fortran("xzgges", kjobvsl, kjobvsr, ksort,
                             n, A=A, n, B=B, n, sdim=sdim, alpha=complex(n),
                             beta=complex(n), vsl=matrix(tmp,nrow=n,ncol=n),n, vsr=matrix(tmp,nrow=n,ncol=n), n,
                             work, lwork, rwork, bwork, info=integer(1L), PACKAGE="geigen")
 
-    if( z$info > 0 ) stop(paste("Lapack dgges fails with info=",z$info))
+    if( z$info > 0 ) stop(paste("Lapack zgges fails with info=",z$info))
 
     return(list(S=z$A, T=z$B, sdim=z$sdim, alpha=z$alpha, beta=z$beta, Q=z$vsl, Z=z$vsr))
 

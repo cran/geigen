@@ -1,14 +1,14 @@
 
 c interface to Lapack's zgges
 
-      subroutine xzgges(jobvsl, jobvsr, evsort, n, a, lda, b, ldb,
+      subroutine xzgges(kjobvsl, kjobvsr, kevsort, n, a, lda, b, ldb,
      *                  sdim, alpha, beta, vsl, ldvsl, vsr,
      *                  ldvsr, work, lwork, rwork, bwork, info )
 
 c     copied from zgges with argument selctg removed
 c
 c     .. Scalar Arguments ..
-      character*1        jobvsl, jobvsr, evsort
+      integer            kjobvsl, kjobvsr, kevsort
       integer            info, lda, ldb, ldvsl, ldvsr, lwork, n, sdim
 c     ..
 c     .. Array Arguments ..
@@ -21,33 +21,39 @@ c     ..
 c     .. Function Arguments ..
       logical            zelctg,zevzero,zrevneg,zrevpos,zevudi,zevudo
       external           zelctg,zevzero,zrevneg,zrevpos,zevudi,zevudo
-      
+
+      character          jobvsl, jobvsr, evsort
+
+      jobvsl = 'NV'(kjobvsl:kjobvsl)
+      jobvsr = 'NV'(kjobvsr:kjobvsr)
+      evsort = 'N-+SBR'(kevsort:kevsort)
+
       select case (evsort)
-      case ("N","n")
-          call zgges(jobvsl, jobvsr, "N", zelctg, n, a, lda, b, ldb,
+      case ('N')
+          call zgges(jobvsl, jobvsr, 'N', zelctg, n, a, lda, b, ldb,
      *               sdim, alpha, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, rwork, bwork, info)
-      case ("-")
-          call zgges(jobvsl, jobvsr, "S", zrevneg, n, a, lda, b, ldb,
+      case ('-')
+          call zgges(jobvsl, jobvsr, 'S', zrevneg, n, a, lda, b, ldb,
      *               sdim, alpha, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, rwork, bwork, info)
-      case ("+")
-          call zgges(jobvsl, jobvsr, "S", zrevpos, n, a, lda, b, ldb,
+      case ('+')
+          call zgges(jobvsl, jobvsr, 'S', zrevpos, n, a, lda, b, ldb,
      *               sdim, alpha, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, rwork, bwork, info)
-      case ("S","s")
-          call zgges(jobvsl, jobvsr, "S", zevudi,  n, a, lda, b, ldb,
+      case ('S')
+          call zgges(jobvsl, jobvsr, 'S', zevudi,  n, a, lda, b, ldb,
      *               sdim, alpha, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, rwork, bwork, info)
-      case ("B","b")
-          call zgges(jobvsl, jobvsr, "S", zevudo,  n, a, lda, b, ldb,
+      case ('B')
+          call zgges(jobvsl, jobvsr, 'S', zevudo,  n, a, lda, b, ldb,
      *               sdim, alpha, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, rwork, bwork, info)
-      case ("R","r")
-          call zgges(jobvsl, jobvsr, "S", zevzero, n, a, lda, b, ldb,
+      case ('R')
+          call zgges(jobvsl, jobvsr, 'S', zevzero, n, a, lda, b, ldb,
      *               sdim, alpha, beta, vsl, ldvsl, vsr,
      *               ldvsr, work, lwork, rwork, bwork, info)
-      
+
       end select
       return
       end
@@ -65,7 +71,7 @@ c real eigenvalue
       double complex alpha,beta
       double precision Rzero
       parameter(Rzero=0.0d0)
-      
+
       zevzero = aimag(alpha) .eq. Rzero
       return
       end

@@ -30,38 +30,38 @@ Type 'q()' to quit R.
 > z <- gqz(A, B,"-")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
-> gev <- z$alpha/z$beta
-> length(which(Re(gev)<0)) == z$sdim
+> gev <- z$alpha/z$beta  
+> all(which(Re(gev)<0) == seq_len(z$sdim))
 [1] TRUE
 > 
 > z <- gqz(A, B,"+")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
-> gev <- z$alpha/z$beta
-> length(which(Re(gev)>0)) == z$sdim
+> gev <- z$alpha/z$beta  
+> all(which(Re(gev)>0) == seq_len(z$sdim))
 [1] TRUE
 > 
 > z <- gqz(A, B,"S")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
 > gev <- z$alpha/z$beta
-> length(which(abs(gev)<1)) == z$sdim
+> all(which(abs(gev)<1) == seq_len(z$sdim))
 [1] TRUE
 > 
 > z <- gqz(A, B,"B")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
-> gev <- z$alpha/z$beta
-> length(which(abs(gev)>1)) == z$sdim
+> gev <- z$alpha/z$beta   
+> all(which(abs(gev)>1) == seq_len(z$sdim))
 [1] TRUE
 > 
 > z <- gqz(A, B,"R")
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
-> gev <- z$alpha/z$beta
-> length(which(Im(gev)==0)) == z$sdim
+> gev <- z$alpha/z$beta   
+> z$sdim == 0
 [1] TRUE
 > 
 > proc.time()
    user  system elapsed 
-  0.314   0.047   0.355 
+  0.303   0.046   0.337 
