@@ -15,18 +15,29 @@ geigen(A, B, symmetric, only.values=FALSE)
  \item{only.values}{if \code{TRUE} only eigenvalues are computed otherwise both eigenvalues and eigenvctors are
 returned.}
 }
-\details{
+\details{ 
+If the argument \code{symmetric} is missing, the function 
+will try to determine if the matrices are symmetric with the function \code{isSymmetric} from
+the \pkg{base} package. It is faster to specify the argument.
+                              
 Both matrices must be square.
 This function provides the solution to the generalized eigenvalue problem defined by
 \deqn{A x = \lambda Bx}{A*x = lambda B*x}
 If either one of the matrices is complex the other matrix is coerced to be complex.
-If the matrices are complex and Hermitian then the matrix \code{B} must be positive definite.
+If the matrices are complex and Hermitian then the matrix \code{B} must be positive definite. 
+For general matrices the generalized eigenvalues \eqn{\lambda}{lambda} are calculated as the ratio
+\eqn{\alpha / \beta}{alpha/beta} where \eqn{\beta}{beta} may be zero or very small leading 
+to non finite or very large values for the eigenvalues.
+Therefore the values for \eqn{\alpha}{alpha} and \eqn{\beta}{beta} are also included in the return value
+of the function. 
 }
 \value{
 A list containing components
   \item{values}{a vector containing the \eqn{n} generalized eigenvalues.}
   \item{vectors}{an \eqn{n} * \eqn{n} matrix containing the generalized eigenvectors or NULL
   if \code{only.values} is \code{TRUE}.}
+  \item{alpha}{the numerator of the generalized eigenvalues and may be NULL if not applicable.}
+  \item{beta}{the denominator of the generalized eigenvalues and may be NULL if not applicable.}
 }
 
 \source{

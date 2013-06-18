@@ -1,22 +1,20 @@
 
 c interface to Lapack's zgges
 
-      subroutine xzgges(kjobvsl, kjobvsr, kevsort, n, a, lda, b, ldb,
-     *                  sdim, alpha, beta, vsl, ldvsl, vsr,
-     *                  ldvsr, work, lwork, rwork, bwork, info )
+      subroutine xzgges(kjobvsl, kjobvsr, kevsort, n, a, b,
+     *                  sdim, alpha, beta, vsl, vsr,
+     *                  work, lwork, rwork, bwork, info)
 
-c     copied from zgges with argument selctg removed
-c
 c     .. Scalar Arguments ..
       integer            kjobvsl, kjobvsr, kevsort
-      integer            info, lda, ldb, ldvsl, ldvsr, lwork, n, sdim
+      integer            info, lwork, n, sdim
 c     ..
 c     .. Array Arguments ..
       logical            bwork(*)
       double precision   rwork(*)
-      double complex     a(lda,*), alpha(*),
-     *                   b(ldb,*), beta(*), vsl(ldvsl,*),
-     *                   vsr(ldvsr,*), work(*)
+      double complex     a(n,*), alpha(*),
+     *                   b(n,*), beta(*), vsl(n,*),
+     *                   vsr(n,*), work(*)
 c     ..
 c     .. Function Arguments ..
       logical            zelctg,zevzero,zrevneg,zrevpos,zevudi,zevudo
@@ -30,33 +28,36 @@ c     .. Function Arguments ..
 
       select case (evsort)
       case ('N')
-          call zgges(jobvsl, jobvsr, 'N', zelctg, n, a, lda, b, ldb,
-     *               sdim, alpha, beta, vsl, ldvsl, vsr,
-     *               ldvsr, work, lwork, rwork, bwork, info)
+          call zgges(jobvsl, jobvsr, 'N', zelctg, n, a, n, b, n,
+     *               sdim, alpha, beta, vsl, n, vsr,
+     *               n, work, lwork, rwork, bwork, info)
       case ('-')
-          call zgges(jobvsl, jobvsr, 'S', zrevneg, n, a, lda, b, ldb,
-     *               sdim, alpha, beta, vsl, ldvsl, vsr,
-     *               ldvsr, work, lwork, rwork, bwork, info)
+          call zgges(jobvsl, jobvsr, 'S', zrevneg, n, a, n, b, n,
+     *               sdim, alpha, beta, vsl, n, vsr,
+     *               n, work, lwork, rwork, bwork, info)
       case ('+')
-          call zgges(jobvsl, jobvsr, 'S', zrevpos, n, a, lda, b, ldb,
-     *               sdim, alpha, beta, vsl, ldvsl, vsr,
-     *               ldvsr, work, lwork, rwork, bwork, info)
+          call zgges(jobvsl, jobvsr, 'S', zrevpos, n, a, n, b, n,
+     *               sdim, alpha, beta, vsl, n, vsr,
+     *               n, work, lwork, rwork, bwork, info)
       case ('S')
-          call zgges(jobvsl, jobvsr, 'S', zevudi,  n, a, lda, b, ldb,
-     *               sdim, alpha, beta, vsl, ldvsl, vsr,
-     *               ldvsr, work, lwork, rwork, bwork, info)
+          call zgges(jobvsl, jobvsr, 'S', zevudi,  n, a, n, b, n,
+     *               sdim, alpha, beta, vsl, n, vsr,
+     *               n, work, lwork, rwork, bwork, info)
       case ('B')
-          call zgges(jobvsl, jobvsr, 'S', zevudo,  n, a, lda, b, ldb,
-     *               sdim, alpha, beta, vsl, ldvsl, vsr,
-     *               ldvsr, work, lwork, rwork, bwork, info)
+          call zgges(jobvsl, jobvsr, 'S', zevudo,  n, a, n, b, n,
+     *               sdim, alpha, beta, vsl, n, vsr,
+     *               n, work, lwork, rwork, bwork, info)
       case ('R')
-          call zgges(jobvsl, jobvsr, 'S', zevzero, n, a, lda, b, ldb,
-     *               sdim, alpha, beta, vsl, ldvsl, vsr,
-     *               ldvsr, work, lwork, rwork, bwork, info)
+          call zgges(jobvsl, jobvsr, 'S', zevzero, n, a, n, b, n,
+     *               sdim, alpha, beta, vsl, n, vsr,
+     *               n, work, lwork, rwork, bwork, info)
 
       end select
       return
       end
+
+c The beta array is non-negative real according to the documentation
+c sign(alpha/beta) == sign(real(alpha)*real(beta))
 
 c for unordered result
       logical function zelctg(alpha,beta)
@@ -69,10 +70,15 @@ c for unordered result
 c real eigenvalue
       logical function zevzero(alpha,beta)
       double complex alpha,beta
-      double precision Rzero
-      parameter(Rzero=0.0d0)
-
-      zevzero = aimag(alpha) .eq. Rzero
+      double precision Rzero, Rtol
+      parameter(Rzero=0.0d0, Rtol=100.0d0)
+      double precision dlamch
+      
+      if(real(beta) .eq. Rzero .and. aimag(beta) .eq. Rzero ) then
+          zevzero = .false.
+      else
+          zevzero = abs(aimag(alpha/beta)) .le. Rtol*dlamch('E')
+      endif
       return
       end
 
@@ -99,15 +105,27 @@ c real(ev) > 0
 c abs(ev) < 1
       logical function zevudi(alpha,beta)
       double complex alpha,beta
+      double precision Rzero
+      parameter(Rzero=0.0d0)
 
-      zevudi = abs(alpha) .lt. abs(beta)
+      if(real(beta) .eq. Rzero .and. aimag(beta) .eq. Rzero ) then
+          zevudi = .false.
+      else
+          zevudi = abs(alpha) .lt. abs(beta)
+      endif
       return
       end
 
 c abs(ev) > 1
       logical function zevudo(alpha,beta)
       double complex alpha,beta
-
-      zevudo = abs(alpha) .gt. abs(beta)
+      double precision Rzero
+      parameter(Rzero=0.0d0)
+      
+      if(real(beta) .eq. Rzero .and. aimag(beta) .eq. Rzero ) then
+          zevudo = .false.
+      else
+          zevudo = abs(alpha) .gt. abs(beta)
+      endif
       return
       end

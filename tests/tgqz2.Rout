@@ -1,5 +1,5 @@
 
-R version 3.0.0 (2013-04-03) -- "Masked Marvel"
+R version 3.0.1 (2013-05-16) -- "Good Sport"
 Copyright (C) 2013 The R Foundation for Statistical Computing
 Platform: x86_64-apple-darwin10.8.0 (64-bit)
 
@@ -59,9 +59,9 @@ Type 'q()' to quit R.
 > testqz(A,B,z)
 [1] TRUE TRUE TRUE TRUE
 > gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-> all(which(Im(gev)==0) == seq_len(z$sdim))
+> all(which(abs(Im(gev)) <= 100*.Machine$double.eps) == seq_len(z$sdim)) 
 [1] TRUE
 > 
 > proc.time()
    user  system elapsed 
-  0.302   0.047   0.333 
+  0.297   0.045   0.326 

@@ -1,9 +1,9 @@
 
 
 gqz <- function(A,B, sort=c("N","-","+","S","B","R")) {
-    
+
     sort <- match.arg(sort)
-    
+
     if(!is.matrix(A)) stop("Argument A should be a matrix")
     if(!is.matrix(B)) stop("Argument B should be a matrix")
     dimA <- dim(A)
@@ -17,22 +17,22 @@ gqz <- function(A,B, sort=c("N","-","+","S","B","R")) {
 
     if(!all(is.finite(A))) stop("Matrix A may not contain infinite/NaN/NA")
     if(!all(is.finite(B))) stop("Matrix B may not contain infinite/NaN/NA")
-    
+
     ksort <- match(sort, c("N","-","+","S","B","R"))
     # to be absolutely sure
     if(is.na(ksort)) stop("invalid sort argument")
-    
+
     if(is.complex(A) || is.complex(B)) {
         if(!is.complex(A)) storage.mode(A) <- "complex"
-        if(!is.complex(B)) storage.mode(B) <- "complex" 
-        geigen.xzgges(A,B, ksort)         
+        if(!is.complex(B)) storage.mode(B) <- "complex"
+        geigen.xzgges(A,B, ksort)
     } else {
         # none of the matrices is complex ==> use double routines
         if( !is.double(A) ) storage.mode(A) <- "double"
         if( !is.double(B) ) storage.mode(B) <- "double"
         geigen.xdgges(A,B, ksort)
     }
-}       
+}
 
 geigen.xdgges <- function(A,B, ksort) {
 
@@ -42,38 +42,42 @@ geigen.xdgges <- function(A,B, ksort) {
 
     # jobvsl.char <- "V"
     # jobvsr.char <- "V"
-    
+
     kjobvsl <- 2L
     kjobvsr <- 2L
-    
+
     dimA <- dim(A)
     n <- dimA[1]
-    
+
     # calculate optimal workspace
     lwork <- -1L
-    work <- numeric(1)
-    sdim <- 0L
+    work  <- numeric(1)
+    sdim  <- 0L
     bwork <- logical(n)
 
     z <- .Fortran("xdgges", kjobvsl, kjobvsr, ksort,
-                            n, A, n, B, n, sdim, numeric(1), numeric(1),
-                            numeric(1), numeric(1), n, numeric(1), n,
+                            n, A, B, sdim, numeric(1), numeric(1),
+                            numeric(1), numeric(1), numeric(1),
                             work=work, lwork, bwork, info=integer(1L), PACKAGE="geigen")
-    # print(z$work[1])
     lwork <- as.integer(z$work[1])
-    # print(lwork)
     lwork <- max(lwork, as.integer(8*n+16))
-
-    work <- numeric(lwork)
+    work  <- numeric(lwork)
 
     z <- .Fortran("xdgges", kjobvsl, kjobvsr, ksort,
-                            n, A=A, n, B=B, n, sdim=sdim, alphar=numeric(n), alphai=numeric(n),
-                            beta=numeric(n), vsl=matrix(0,nrow=n,ncol=n),n, vsr=matrix(0,nrow=n,ncol=n), n,
+                            n, A=A, B=B, sdim=sdim, alphar=numeric(n), alphai=numeric(n),
+                            beta=numeric(n), vsl=matrix(0,nrow=n,ncol=n), vsr=matrix(0,nrow=n,ncol=n),
                             work, lwork, bwork, info=integer(1L), PACKAGE="geigen")
 
-    if( z$info > 0 ) stop(paste("Lapack dgges fails with info=",z$info))
+    if( z$info != 0 ) .gges_Lapackerror(z$info,n)
+
+    # if( all(z$alphai==0) ) {
+    #     alpha <- z$alphar
+    # } else
+    #     alpha <- complex(real=z$alphar, imaginary=z$alphai)
+    # }
 
     return(list(S=z$A, T=z$B, sdim=z$sdim, alphar=z$alphar, alphai=z$alphai, beta=z$beta, Q=z$vsl, Z=z$vsr))
+    # return(list(S=z$A, T=z$B, sdim=z$sdim, alpha=alpha, beta=z$beta, Q=z$vsl, Z=z$vsr))
 
 }
 
@@ -82,10 +86,10 @@ geigen.xzgges <- function(A,B, ksort) {
     # interface to xzgges which calls Lapack zgges
     # for generalized eigenvalue problem
     # general complex matrices  (A and B must be complex; tested above)
-    
+
     # jobvsl.char <- "V"
     # jobvsr.char <- "V"
-    
+
     kjobvsl <- 2L
     kjobvsr <- 2L
 
@@ -94,29 +98,27 @@ geigen.xzgges <- function(A,B, ksort) {
 
     # calculate optimal workspace
     lwork <- -1L
-    work <- complex(1)
-    sdim <- 0L
+    work  <- complex(1)
+    sdim  <- 0L
     bwork <- logical(n)
 
     z <- .Fortran("xzgges", kjobvsl, kjobvsr, ksort,
-                            n, A, n, B, n, sdim, complex(1), complex(1),
-                            complex(1), n, complex(1), n,
+                            n, A, B, sdim, complex(1), complex(1),
+                            complex(1), complex(1),
                             work=work, lwork, numeric(1), bwork, info=integer(1L), PACKAGE="geigen")
-    # print(z$work[1])
     lwork <- as.integer(Re(z$work[1]))
-    # print(lwork)
     lwork <- max(lwork, as.integer(8*n+16))
+    work  <- complex(lwork)
 
-    work <- complex(lwork)
     rwork <- numeric(8*n)
-    tmp <- 0+0i       
-    
+    tmp <- 0+0i
+
     z <- .Fortran("xzgges", kjobvsl, kjobvsr, ksort,
-                            n, A=A, n, B=B, n, sdim=sdim, alpha=complex(n),
-                            beta=complex(n), vsl=matrix(tmp,nrow=n,ncol=n),n, vsr=matrix(tmp,nrow=n,ncol=n), n,
+                            n, A=A, B=B, sdim=sdim, alpha=complex(n),
+                            beta=complex(n), vsl=matrix(tmp,nrow=n,ncol=n), vsr=matrix(tmp,nrow=n,ncol=n),
                             work, lwork, rwork, bwork, info=integer(1L), PACKAGE="geigen")
 
-    if( z$info > 0 ) stop(paste("Lapack zgges fails with info=",z$info))
+    if( z$info != 0 ) .gges_Lapackerror(z$info,n)
 
     return(list(S=z$A, T=z$B, sdim=z$sdim, alpha=z$alpha, beta=z$beta, Q=z$vsl, Z=z$vsr))
 
