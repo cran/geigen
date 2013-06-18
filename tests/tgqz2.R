@@ -33,4 +33,4 @@ all(which(abs(gev)>1) == seq_len(z$sdim))
 z <- gqz(A, B,"R")
 testqz(A,B,z)
 gev <- complex(real=z$alphar,imaginary=z$alphai)/z$beta
-all(which(Im(gev)==0) == seq_len(z$sdim))
+all(which(abs(Im(gev)) <= 100*.Machine$double.eps) == seq_len(z$sdim)) 

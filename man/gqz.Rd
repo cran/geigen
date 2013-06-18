@@ -28,7 +28,7 @@ satisfy
   \item{\code{+}}{positive real part}
   \item{\code{S}}{absolute value < 1}
   \item{\code{B}}{absolute value > 1}
-  \item{\code{R}}{imaginary part identical to 0}
+  \item{\code{R}}{imaginary part identical to 0 with a tolerance of 100*machine_precision as determined by Lapack}
 }
 }
 \value{

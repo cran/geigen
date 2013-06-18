@@ -1,3 +1,13 @@
+1.2
+
+o added Lapack Licence
+o added alpha and beta to return list of geigen() and gqz() for safe calculation of generalized eigenvalues
+o improved sorting eigenvalues for singular matrix B
+o improved calculation of eigenvalues for singular B matrix in geigen()
+o detailed Lapack error/informative messages
+o option 'R' in gqz() didn't function correctly.
+  Corrected errors and now uses a tolerance for testing zero imaginary part.
+
 1.1
 
 o corrected error message in gqz()

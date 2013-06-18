@@ -31,6 +31,6 @@ gev <- z$alpha/z$beta
 all(which(abs(gev)>1) == seq_len(z$sdim))
 
 z <- gqz(A, B,"R")
-testqz(A,B,z)
-gev <- z$alpha/z$beta   
-z$sdim == 0
+testqz(A,B,z) 
+gev <- z$alpha/z$beta 
+all(which(abs(Im(gev)) <= 100*.Machine$double.eps) == seq_len(z$sdim))
