@@ -70,15 +70,25 @@ geigen.xdgges <- function(A,B, ksort) {
 
     if( z$info != 0 ) .gges_Lapackerror(z$info,n)
 
-    # if( all(z$alphai==0) ) {
-    #     alpha <- z$alphar
-    # } else
-    #     alpha <- complex(real=z$alphar, imaginary=z$alphai)
-    # }
+    ret <- list(S=z$A, T=z$B, sdim=z$sdim, alphar=z$alphar, alphai=z$alphai, beta=z$beta, Q=z$vsl, Z=z$vsr)
+    class(ret) <- "xdgges"
+    ret
+}
 
-    return(list(S=z$A, T=z$B, sdim=z$sdim, alphar=z$alphar, alphai=z$alphai, beta=z$beta, Q=z$vsl, Z=z$vsr))
-    # return(list(S=z$A, T=z$B, sdim=z$sdim, alpha=alpha, beta=z$beta, Q=z$vsl, Z=z$vsr))
+gevalues.xdgges <- function(x) {
+    if(!inherits(x,"xdgges")) stop("gevalues only accepts an object constructed with gqz")
+    
+    if( all(x$alphai==0) ) {
+        ret <- x$alphar/x$beta
+    } else {
+        ret <- complexdiv(complex(real=x$alphar,imaginary=x$alphai),x$beta)
+    }
+    ret
+}
 
+print.xdgges <- function(x, ...) {
+    print(unclass(x), ...)
+    invisible(x)
 }
 
 geigen.xzgges <- function(A,B, ksort) {
@@ -120,6 +130,18 @@ geigen.xzgges <- function(A,B, ksort) {
 
     if( z$info != 0 ) .gges_Lapackerror(z$info,n)
 
-    return(list(S=z$A, T=z$B, sdim=z$sdim, alpha=z$alpha, beta=z$beta, Q=z$vsl, Z=z$vsr))
+    ret <- list(S=z$A, T=z$B, sdim=z$sdim, alpha=z$alpha, beta=z$beta, Q=z$vsl, Z=z$vsr)
+    class(ret) <- "xzgges"
+    ret
+}
 
+print.xzgges <- function(x, ...) {
+    print(unclass(x), ...) 
+    invisible(x)
+}
+
+gevalues.xzgges <- function(x) {
+    if(!inherits(x,"xzgges")) stop("gevalues only accepts an object constructed with gqz")
+    
+    ret <- complexdiv(x$alpha,x$beta)
 }

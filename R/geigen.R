@@ -101,11 +101,12 @@ geigen.dggev <- function(A,B, only.values=FALSE) {
         # alphai == 0 implies real eigenvalue
         # alphai  > 0 implies a complex conjugate pair of eigenvalues
         #             alphai[j] > 0 ==> alphai[j+1] < 0
+        
+        # use specialized complex division function in order to avoid NaN+NaNi 
+        # on Mac OS X with the official R (because of broken gcc 4.2.X)
 
-        values <- complex(real=z$alphar/z$beta, imaginary=z$alphai/z$beta)
         alpha  <- complex(real=z$alphar, imaginary=z$alphai) 
-        # avoiding NaN imaginary part
-        for(j in which(z$alphai==0)) values[j] <- complex(real=Re(values[j]), imaginary=0)
+        values <- complexdiv(alpha,z$beta)
 
         if( !only.values ) {
             vectors <- z$vr
@@ -213,8 +214,8 @@ geigen.zggev <- function(A,B, only.values=FALSE) {
 
     if( z$info != 0 ) .ggev_Lapackerror(z$info,n)
 
-    # simplistic calculation of eigenvalues (see caveat in source zggev)
-    values <- z$alpha/z$beta
+    # see comment in geigen.dggev
+    values <- complexdiv(z$alpha,z$beta)
 
     if( !only.values )
         return(list(values=values, vectors=z$vr, alpha=z$alpha, beta=z$beta))
