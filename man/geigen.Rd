@@ -7,30 +7,38 @@
 geigen(A, B, symmetric, only.values=FALSE)
 }
 \arguments{
- \item{A}{left hand side matrix}
- \item{B}{right hand side matrix}
+ \item{A}{left hand side matrix.}
+ \item{B}{right hand side matrix.}
  \item{symmetric}{if \code{TRUE}, both matrices are assumed to be symmetric (or Hermitian if complex)
  and only their lower triangle (diagonal included) is used.
  If \code{symmetric} is not specified, the matrices are inspected for symmetry.}
  \item{only.values}{if \code{TRUE} only eigenvalues are computed otherwise both eigenvalues and eigenvctors are
 returned.}
 }
-\details{ 
-If the argument \code{symmetric} is missing, the function 
+\details{
+If the argument \code{symmetric} is missing, the function
 will try to determine if the matrices are symmetric with the function \code{isSymmetric} from
 the \pkg{base} package. It is faster to specify the argument.
-                              
+
 Both matrices must be square.
 This function provides the solution to the generalized eigenvalue problem defined by
 \deqn{A x = \lambda Bx}{A*x = lambda B*x}
 If either one of the matrices is complex the other matrix is coerced to be complex.
-If the matrices are complex and Hermitian then the matrix \code{B} must be positive definite. 
-For general matrices the generalized eigenvalues \eqn{\lambda}{lambda} are calculated as the ratio
-\eqn{\alpha / \beta}{alpha/beta} where \eqn{\beta}{beta} may be zero or very small leading 
+If the matrices are complex and Hermitian then the matrix \code{B} must be positive definite.
+
+For general matrices the generalized eigenvalues \eqn{\lambda}{lambda}
+are calculated as the ratio \eqn{\alpha / \beta}{alpha/beta}
+where \eqn{\beta}{beta} may be zero or very small leading
 to non finite or very large values for the eigenvalues.
 Therefore the values for \eqn{\alpha}{alpha} and \eqn{\beta}{beta} are also included in the return value
-of the function. 
-}
+of the function.
+When both matrices are complex (or coerced to be so) the generalized eigenvalues, 
+\eqn{\alpha}{alpha} and \eqn{\beta}{beta} are complex. 
+When both matrices are numeric \eqn{\alpha}{alpha} may be numeric or complex and
+\eqn{\beta}{beta} is numeric.
+
+When both matrices are symmetric (or Hermitian) the generalized eigenvalues are numeric and 
+no components \eqn{\alpha}{alpha} and \eqn{\beta}{beta} are available.}
 \value{
 A list containing components
   \item{values}{a vector containing the \eqn{n} generalized eigenvalues.}

@@ -7,8 +7,8 @@
 gqz(A, B, sort=c("N","-","+","S","B","R"))
 }
 \arguments{
- \item{A}{left hand side matrix}
- \item{B}{right hand side matrix}
+ \item{A}{left hand side matrix.}
+ \item{B}{right hand side matrix.}
  \item{sort}{how to sort the generalized eigenvalues. See \sQuote{Details}.}
 }
 \details{
@@ -19,16 +19,17 @@ If either one of the matrices is complex the other matrix is coerced to be compl
 If the matrices are complex and Hermitian then the matrix \code{B} must be positive definite.
 
 The \code{sort} argument specifies how to order the eigenvalues on the
-diagonal of the generalized Schur form.
+diagonal of the generalized Schur form, where it is noted that non-finite eigenvalues never 
+satisfy any ordering condition (even in the case of a complex infinity).
 Eigenvalues that are placed in the leading block of the Schur form
 satisfy
 \describe{
-  \item{\code{N}}{unordered}
-  \item{\code{-}}{negative real part}
-  \item{\code{+}}{positive real part}
-  \item{\code{S}}{absolute value < 1}
-  \item{\code{B}}{absolute value > 1}
-  \item{\code{R}}{imaginary part identical to 0 with a tolerance of 100*machine_precision as determined by Lapack}
+  \item{\code{N}}{unordered.}
+  \item{\code{-}}{negative real part.}
+  \item{\code{+}}{positive real part.}
+  \item{\code{S}}{absolute value < 1.}
+  \item{\code{B}}{absolute value > 1.}
+  \item{\code{R}}{imaginary part identical to 0 with a tolerance of 100*machine_precision as determined by Lapack.}
 }
 }
 \value{
@@ -38,18 +39,15 @@ The matrices \eqn{Q}{Q} and \eqn{Z}{Z} are unitary. The matrix \eqn{S}{S} is qua
 the matrix \eqn{T}{T} is upper triangular.
 The return value is a list containing the following components
 \describe{
-  \item{\code{S}}{generalized Schur form of A}
-  \item{\code{T}}{generalized Schur form of B}
+  \item{\code{S}}{generalized Schur form of A.}
+  \item{\code{T}}{generalized Schur form of B.}
   \item{\code{sdim}}{the number of eigenvalues (after sorting) for which the sorting condition is true.}
-  \item{\code{alphar}}{numerator of the vector of real parts of the eigenvalues (numeric).}
-  \item{\code{alphai}}{numerator of the vector of imaginary parts of eigenvalues (numeric).}
-  \item{\code{beta}}{vector of denominator of the expression for the eigenvalues (numeric).}
+  \item{\code{alphar}}{numerator of the real parts of the eigenvalues (numeric).}
+  \item{\code{alphai}}{numerator of the imaginary parts of the eigenvalues (numeric).}
+  \item{\code{beta}}{denominator of the expression for the eigenvalues (numeric).}
   \item{\code{Q}}{matrix of left Schur vectors (matrix Q).}
   \item{\code{Z}}{matrix of right Schur vectors (matrix Z).}
 }
-
-The actual generalized eigenvalues can be computed from the components \code{alphar}, \code{alphai} and \code{beta}
-by \code{gev <- complex(real=alphar,imaginary=alphai)/beta} where \code{beta} can be zero.
 
 The generalized Schur form for \emph{complex} matrices is
 \deqn{(A,B) = (Q S Z^H, Q T Z^H)}{(A,B) = (Q*S*Z^H, Q*T*Z^H)}
@@ -57,18 +55,16 @@ The matrices \eqn{Q}{Q} and \eqn{Z}{Z} are unitary and the matrices \eqn{S}{S} a
 \eqn{T}{T} are upper triangular.
 The return value is a list containing the following components
 \describe{
-  \item{\code{S}}{generalized Schur form of A}
-  \item{\code{T}}{generalized Schur form of B}
-  \item{\code{sdim}}{the number of eigenvalues (after sorting) for which the sorting condition is true.}
-  \item{\code{alpha}}{numerator vector of the eigenvalues (complex).}
-  \item{\code{beta}}{vector of denominator of the expression for the eigenvalues.}
+  \item{\code{S}}{generalized Schur form of A.}
+  \item{\code{T}}{generalized Schur form of B.}
+  \item{\code{sdim}}{the number of eigenvalues. (after sorting) for which the sorting condition is true.}
+  \item{\code{alpha}}{numerator of the eigenvalues (complex).}
+  \item{\code{beta}}{denominator of the eigenvalues (complex).}
   \item{\code{Q}}{matrix of left Schur vectors (matrix Q).}
   \item{\code{Z}}{matrix of right Schur vectors (matrix Z).}
 }
 
-The actual generalized eigenvalues can be computed from the components \code{alpha} and \code{beta}
-by \code{gev <- alpha/beta} where \code{beta} can be zero.
-
+The generalized eigenvalues can be computed by calling function \code{gevalues}.
 }
 \source{
   \code{gqz} uses the LAPACK routines \code{DGGES} and \code{ZGGES}.
@@ -84,7 +80,7 @@ by \code{gev <- alpha/beta} where \code{beta} can be zero.
   (\url{http://www.netlib.org/lapack/lug/node56.html}).
 }
 \seealso{
-  \code{geigen}
+  \code{geigen}, \code{gevalues}
 }
 \examples{
 # Real matrices
@@ -103,19 +99,12 @@ B <- matrix(c( 1.0, 2.0, -3.0, 1.0,
 
 z <- gqz(A, B,"R")
 z
-# compute the generalized eigenvalues
-ger <- as.matrix(complex(real=z$alphar,imaginary=z$alphai)/z$beta, ncol=1)
-ger
 
 # complexify
 A <- A+0i 
 B <- B+0i 
 z <- gqz(A, B,"R")
 z
-# compute the generalized eigenvalues
-gec <- as.matrix(z$alpha/z$beta, ncol=1)
-gec
-
 }
 \keyword{algebra}
 \keyword{array}

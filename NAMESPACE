@@ -1,2 +1,6 @@
 useDynLib(geigen)
-export(geigen,gqz)
+S3method(gevalues,xdgges) 
+S3method(gevalues,xzgges)  
+S3method(print,xdgges) 
+S3method(print,xzgges)
+export(geigen,gqz,gevalues)
