@@ -1,0 +1,60 @@
+
+R version 3.1.0 Patched (2014-04-21 r65431) -- "Spring Dance"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin10.8.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> library("geigen")
+> source("testgv.R")
+> 
+> # tol <-  0 triggers buglet in complex QR
+> tol <- .Machine$double.eps
+> set.seed(11)
+> 
+> n <- 5
+> A.save <- matrix(runif(n*n),nrow=n)
+> B.save <- matrix(runif(n*n),nrow=n)
+> 
+> A <- A.save
+> B <- B.save
+> B[5,] <- (B[4,]+B[3,])/2 + tol
+> z <- geigen(A,B)
+> testgv(A,B,z)
+[1] TRUE
+> 
+> A <- A.save+0i
+> B <- B.save+0i
+> B[5,] <- (B[4,]+B[3,])/2 + tol
+> z <- geigen(A,B)
+> testgv(A,B,z)
+[1] TRUE
+> 
+> A <- A.save
+> B <- B.save
+> B[1,] <- (B[2,]+B[3,])/2 + tol
+> z <- geigen(A,B)
+> testgv(A,B,z)
+[1] TRUE
+> 
+> A <- A.save+0i
+> B <- B.save+0i
+> B[1,] <- (B[2,]+B[3,])/2 + tol
+> z <- geigen(A,B)
+> testgv(A,B,z)
+[1] TRUE
+> 
+> proc.time()
+   user  system elapsed 
+  0.246   0.047   0.279 

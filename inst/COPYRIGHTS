@@ -1,4 +1,4 @@
-The files in src/{zggesall,zggevall,zggevdeps}.f contain code extracted from LAPACK 3.4.2.
+The files in src/{zggesall,zggevall,zggevdeps}.f contain code extracted from LAPACK 3.4.2 and LAPACK 3.5.0 (zgetc2).
 The licence of LAPACK may be found here: http://www.netlib.org/lapack/LICENSE.txt
 
 It is reproduced here for the binary distribution of this package.

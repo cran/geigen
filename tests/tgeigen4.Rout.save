@@ -1,0 +1,70 @@
+
+R version 3.1.0 Patched (2014-04-21 r65431) -- "Spring Dance"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin10.8.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> library("geigen")
+> source("testgv.R")
+> 
+> # tol <-  0 triggers buglet in complex QR
+> tol <- .Machine$double.eps
+> set.seed(11)
+> 
+> n <- 5
+> A.save <- matrix(runif(n*n),nrow=n)
+> B.save <- matrix(runif(n*n),nrow=n)
+> A.save <- (A.save+t(A.save))/2
+> B.save <- (B.save+t(B.save))/2
+> diag(B.save) <- diag(B.save) + 1
+> 
+> A <- A.save
+> B <- B.save
+> B
+          [,1]      [,2]       [,3]      [,4]       [,5]
+[1,] 1.4830178 0.4520305 0.32912328 0.1862696 0.63101863
+[2,] 0.4520305 1.3276794 0.34432646 0.2087121 0.72522905
+[3,] 0.3291233 0.3443265 1.10355601 0.3748383 0.03581977
+[4,] 0.1862696 0.2087121 0.37483826 1.6534460 0.42909531
+[5,] 0.6310186 0.7252291 0.03581977 0.4290953 1.83436304
+> isSymmetric(A)
+[1] TRUE
+> isSymmetric(B)
+[1] TRUE
+> z <- geigen(A,B)
+> testgv(A,B,z)
+[1] TRUE
+> 
+> A <- A.save+0i
+> B <- B.save+0i
+> z <- geigen(A,B)
+> testgv(A,B,z)
+[1] TRUE
+> 
+> A <- A.save
+> B <- B.save
+> z <- geigen(A,B)
+> testgv(A,B,z)
+[1] TRUE
+> 
+> A <- A.save+0i
+> B <- B.save+0i
+> z <- geigen(A,B)
+> testgv(A,B,z)
+[1] TRUE
+> 
+> proc.time()
+   user  system elapsed 
+  0.247   0.051   0.283 

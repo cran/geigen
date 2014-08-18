@@ -20,11 +20,16 @@ c     .. Function Arguments ..
       logical            zelctg,zevzero,zrevneg,zrevpos,zevudi,zevudo
       external           zelctg,zevzero,zrevneg,zrevpos,zevudi,zevudo
 
+      character*2        cjobv
+      character*6        cevsort
+      parameter(cjobv='NV', cevsort='N-+SBR')
       character          jobvsl, jobvsr, evsort
 
-      jobvsl = 'NV'(kjobvsl:kjobvsl)
-      jobvsr = 'NV'(kjobvsr:kjobvsr)
-      evsort = 'N-+SBR'(kevsort:kevsort)
+c     if you change the cxxx values don't forget to adjust the R functions
+
+      jobvsl = cjobv(kjobvsl:kjobvsl)
+      jobvsr = cjobv(kjobvsr:kjobvsr)
+      evsort = cevsort(kevsort:kevsort)
 
       select case (evsort)
       case ('N')
@@ -74,10 +79,10 @@ c real eigenvalue
       parameter(Rzero=0.0d0, Rtol=100.0d0)
       double precision dlamch
       
-      if(real(beta) .eq. Rzero .and. aimag(beta) .eq. Rzero ) then
+      if(dble(beta) .eq. Rzero .and. dimag(beta) .eq. Rzero ) then
           zevzero = .false.
       else
-          zevzero = abs(aimag(alpha/beta)) .le. Rtol*dlamch('E')
+          zevzero = abs(dimag(alpha/beta)) .le. Rtol*dlamch('E')
       endif
       return
       end
@@ -88,7 +93,7 @@ c real(ev) < 0
       double precision Rzero
       parameter(Rzero=0.0d0)
 
-      zrevneg = real(alpha) * real(beta) .lt. Rzero
+      zrevneg = dble(alpha) * dble(beta) .lt. Rzero
       return
       end
 
@@ -98,7 +103,7 @@ c real(ev) > 0
       double precision Rzero
       parameter(Rzero=0.0d0)
 
-      zrevpos = real(alpha) * real(beta) .gt. Rzero
+      zrevpos = dble(alpha) * dble(beta) .gt. Rzero
       return
       end
 
@@ -108,7 +113,7 @@ c abs(ev) < 1
       double precision Rzero
       parameter(Rzero=0.0d0)
 
-      if(real(beta) .eq. Rzero .and. aimag(beta) .eq. Rzero ) then
+      if(dble(beta) .eq. Rzero .and. dimag(beta) .eq. Rzero ) then
           zevudi = .false.
       else
           zevudi = abs(alpha) .lt. abs(beta)
@@ -122,7 +127,7 @@ c abs(ev) > 1
       double precision Rzero
       parameter(Rzero=0.0d0)
       
-      if(real(beta) .eq. Rzero .and. aimag(beta) .eq. Rzero ) then
+      if(dble(beta) .eq. Rzero .and. dimag(beta) .eq. Rzero ) then
           zevudo = .false.
       else
           zevudo = abs(alpha) .gt. abs(beta)

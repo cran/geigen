@@ -1,0 +1,69 @@
+
+R version 3.1.0 Patched (2014-04-21 r65431) -- "Spring Dance"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin10.8.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> library("geigen")
+> source("testqz.R")
+> 
+> set.seed(11)
+> 
+> n <- 5
+> A <- matrix(runif(n*n),nrow=n)
+> B <- matrix(runif(n*n),nrow=n)
+> 
+> B[5,] <- (B[4,]+B[3,])/2
+> 
+> # Test interface to dgges (QZ method)
+> 
+> z <- gqz(A, B,"-")
+> testqz(A,B,z)
+[1] TRUE TRUE TRUE TRUE
+> gev <- gevalues(z)
+> all(which(ifelse(is.finite(gev),Re(gev)<0,FALSE)) == seq_len(z$sdim))
+[1] TRUE
+> 
+> z <- gqz(A, B,"+")
+> testqz(A,B,z)
+[1] TRUE TRUE TRUE TRUE
+> gev <- gevalues(z)
+> all(which(ifelse(is.finite(gev),Re(gev)>0,FALSE)) == seq_len(z$sdim))
+[1] TRUE
+> 
+> z <- gqz(A, B,"S")
+> testqz(A,B,z)
+[1] TRUE TRUE TRUE TRUE
+> gev <- gevalues(z)
+> all(which(ifelse(is.finite(gev),abs(gev)<1,FALSE)) == seq_len(z$sdim))
+[1] TRUE
+> 
+> z <- gqz(A, B,"B")
+> testqz(A,B,z)
+[1] TRUE TRUE TRUE TRUE
+> gev <- gevalues(z)
+> all(which(ifelse(is.finite(gev),abs(gev)>1,FALSE)) == seq_len(z$sdim))
+[1] TRUE
+> 
+> z <- gqz(A, B,"R")
+> testqz(A,B,z)
+[1] TRUE TRUE TRUE TRUE
+> gev <- gevalues(z)
+> all(which(ifelse(is.finite(gev),abs(Im(gev)) <= 100*.Machine$double.eps,FALSE)) == seq_len(z$sdim))
+[1] TRUE
+> 
+> proc.time()
+   user  system elapsed 
+  0.245   0.047   0.277 

@@ -12,10 +12,14 @@ c     .. Array Arguments ..
      *                   b(n, *), beta(*), vl(ldvl, *),
      *                   vr(ldvr, *), work(*)
 
+      character*2        cjobv
+      parameter(cjobv='NV')
       character          jobvl, jobvr
 
-      jobvl = 'NV'(kjobvl:kjobvl)
-      jobvr = 'NV'(kjobvr:kjobvr)
+c     if you change the cxxx values don't forget to adjust the R functions
+
+      jobvl = cjobv(kjobvl:kjobvl)
+      jobvr = cjobv(kjobvr:kjobvr)
 
       call dggev(jobvl, jobvr, n, a, n, b, n, alphar, alphai,
      *                  beta, vl, ldvl, vr, ldvr, work, lwork, info)
@@ -32,10 +36,14 @@ c     ..
 c     .. Array Arguments ..
       double precision   a(n, *), b(n, *), w(*), work(*)
 
+      character*2        cjobz,cjobul
+      parameter(cjobz='NV', cjobul='UL')
       character          jobz, uplo
 
-      jobz = 'NV'(kjobz:kjobz)
-      uplo = 'UL'(kuplo:kuplo)
+c     if you change the cxxx values don't forget to adjust the R functions
+
+      jobz = cjobz(kjobz:kjobz)
+      uplo = cjobul(kuplo:kuplo)
 
       call dsygv(itype, jobz, uplo, n, a, n, b, n, w, work,
      *                  lwork, info)

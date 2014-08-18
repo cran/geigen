@@ -18,13 +18,18 @@ c     ..
 c     .. Function Arguments ..
       logical            selctg,evzero,revneg,revpos,evudi,evudo
       external           selctg,evzero,revneg,revpos,evudi,evudo
-      
+
+      character*2        cjobv
+      character*6        cevsort
+      parameter(cjobv='NV', cevsort='N-+SBR')
       character          jobvsl, jobvsr, evsort
-      
-      jobvsl = 'NV'(kjobvsl:kjobvsl)
-      jobvsr = 'NV'(kjobvsr:kjobvsr)
-      evsort = 'N-+SBR'(kevsort:kevsort)
-      
+
+c     if you change the cxxx values don't forget to adjust the R functions
+
+      jobvsl = cjobv(kjobvsl:kjobvsl)
+      jobvsr = cjobv(kjobvsr:kjobvsr)
+      evsort = cevsort(kevsort:kevsort)
+
       select case (evsort)
       case ('N')
           call dgges(jobvsl, jobvsr, 'N', selctg, n, a, n, b,n,
@@ -50,7 +55,7 @@ c     .. Function Arguments ..
           call dgges(jobvsl, jobvsr, 'S', evzero, n, a, n, b, n,
      *               sdim, alphar, alphai, beta, vsl, n, vsr,
      *               n, work, lwork, bwork, info)
-      
+
       end select
       return
       end
@@ -69,7 +74,7 @@ c real eigenvalue
       double precision Rzero, Rtol
       parameter(Rzero=0.0d0, Rtol=100d0)
       double precision dlamch
-      
+
       if( beta .eq. Rzero ) then
           evzero = .false.
       else
@@ -97,7 +102,7 @@ c real(ev) > 0
       double precision alphar,alphai,beta
       double precision Rzero
       parameter(Rzero=0.0d0)
-      
+
       if( beta .eq. Rzero ) then
           revpos = .false.
       else
@@ -115,7 +120,7 @@ c abs(ev) < 1
       if( beta .eq. Rzero ) then
           evudi = .false.
       else
-          evudi = abs(cmplx(alphar,alphai)) .lt. abs(beta)
+          evudi = abs(dcmplx(alphar,alphai)) .lt. abs(beta)
       endif
       return
       end
@@ -129,7 +134,7 @@ c abs(ev) > 1
       if( beta .eq. Rzero ) then
           evudo = .false.
       else
-          evudo = abs(cmplx(alphar,alphai)) .gt. abs(beta)
+          evudo = abs(dcmplx(alphar,alphai)) .gt. abs(beta)
       endif
       return
       end
