@@ -2,15 +2,15 @@
 \alias{geigen-package}
 \alias{geigen.Intro}
 \docType{package}
-\title{Calculating generalized eigenvalues}
-\description{ 
-The \pkg{geigen} package provides functions to compute the generalized eigenvalues for a pair of matrices and 
+\title{Calculating Generalized Eigenvalues}
+\description{
+The \pkg{geigen} package provides functions to compute the generalized eigenvalues for a pair of matrices and
 optionally provides the generalized eigenvectors. Both numeric and complex matrices are allowed.
-The package also provides a function for computing the generalized Schur decomposition of a pair of matrices, 
+The package also provides a function for computing the generalized Schur decomposition of a pair of matrices,
 either numeric or complex.
 % The package uses Lapack subroutines and calls these with the .Fortran interface.
 }
-% \details{ 
+% \details{
 % \tabular{ll}{
 % Package: \tab geigen\cr
 % Type: \tab Package\cr

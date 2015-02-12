@@ -1,11 +1,11 @@
 citHeader("To cite package 'geigen' in publications use:")
 
 citEntry(entry="manual",
-  title = "geigen: Calculate generalized eigenvalues of a matrix pair\n",
-  year = "2013",
+  title = "geigen: Calculate Generalized Eigenvalues of a Matrix Pair\n",
+  year = "2015",
   author = personList(as.person("Berend Hasselman")),
-  note = "R package 1.3",
-  textVersion =  paste("Hasselman, B. (2013), geigen: Calculate generalized eigenvalues of a matrix pair.
+  note = "R package 1.5",
+  textVersion =  paste("Hasselman, B. (2015), geigen: Calculate Generalized Eigenvalues of a Matrix Pair.
   R-package version 1.3, URL http://CRAN.R-project.org/package=geigen"),
   url = {"http://CRAN.R-project.org/package=geigen"},
          )

@@ -1,3 +1,8 @@
+1.5
+
+o change to titlecase in several places and update CITATION
+o additional comments in cmplxdiv.R about weird complex division on some systems
+
 1.4
 
 o replaced zgetc2 in zggesall.f with Lapack 3.5.0 version

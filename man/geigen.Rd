@@ -1,7 +1,7 @@
 \name{geigen}
 \alias{geigen}
 \encoding{UTF-8}
-\title{Generalized eigenvalues}
+\title{Generalized Eigenvalues}
 \description{Computes generalized eigenvalues and eigenvectors of a pair of matrices.}
 \usage{
 geigen(A, B, symmetric, only.values=FALSE)
@@ -32,12 +32,12 @@ where \eqn{\beta}{beta} may be zero or very small leading
 to non finite or very large values for the eigenvalues.
 Therefore the values for \eqn{\alpha}{alpha} and \eqn{\beta}{beta} are also included in the return value
 of the function.
-When both matrices are complex (or coerced to be so) the generalized eigenvalues, 
-\eqn{\alpha}{alpha} and \eqn{\beta}{beta} are complex. 
+When both matrices are complex (or coerced to be so) the generalized eigenvalues,
+\eqn{\alpha}{alpha} and \eqn{\beta}{beta} are complex.
 When both matrices are numeric \eqn{\alpha}{alpha} may be numeric or complex and
 \eqn{\beta}{beta} is numeric.
 
-When both matrices are symmetric (or Hermitian) the generalized eigenvalues are numeric and 
+When both matrices are symmetric (or Hermitian) the generalized eigenvalues are numeric and
 no components \eqn{\alpha}{alpha} and \eqn{\beta}{beta} are available.}
 \value{
 A list containing components

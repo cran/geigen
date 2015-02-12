@@ -1,7 +1,7 @@
 \name{gevalues}
 \alias{gevalues}
 \encoding{UTF-8}
-\title{Calculate generalized eigenvalues from a Generalized Schur decomposition}
+\title{Calculate Generalized Eigenvalues from a Generalized Schur decomposition}
 \description{Computes the generalized eigenvalues from an object constructed with \code{gqz}.}
 \usage{
 gevalues(x)
@@ -11,14 +11,14 @@ gevalues(x)
 }
 \details{The function calculates the generalized eigenvalues from elements of the object returned by
 the function \code{gqz}.
-The generalized eigenvalues are computed from a ratio where the denominator 
-(the \eqn{\beta}{beta} component of the argument) may be zero. 
-The function attempts to guard against nonsensical complex \code{NaN} values when dividing by zero 
+The generalized eigenvalues are computed from a ratio where the denominator
+(the \eqn{\beta}{beta} component of the argument) may be zero.
+The function attempts to guard against nonsensical complex \code{NaN} values when dividing by zero
 which may happen on some systems.
 }
 \value{A vector containing the generalized eigenvalues.
 The vector is numeric if the imaginary parts of the eigenvalues are all zero and complex otherwise.
-} 
+}
 \seealso{
   \code{geigen}, \code{gqz}
 }
