@@ -1,0 +1,48 @@
+
+R version 3.2.0 Patched (2015-05-11 r68355) -- "Full of Ingredients"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+>
+> library("geigen")
+> source("testgsvd.R")
+>
+> set.seed(11)
+> A <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+>
+> B <- matrix(round(runif(24),2),byrow=TRUE, ncol=6)
+>
+> A
+     [,1] [,2] [,3] [,4] [,5] [,6]
+[1,] 0.28 0.00 0.51 0.01 0.06 0.95
+[2,] 0.09 0.29 0.88 0.12 0.18 0.44
+[3,] 0.91 0.85 0.73 0.57 0.48 0.33
+[4,] 0.16 0.48 0.20 0.68 0.36 0.35
+[5,] 0.06 0.48 0.40 0.02 0.13 0.40
+[6,] 0.50 0.33 0.41 0.20 0.81 0.64
+> B
+     [,1] [,2] [,3] [,4] [,5] [,6]
+[1,] 0.28 0.10 0.26 0.06 0.25 0.22
+[2,] 0.49 0.65 0.33 0.86 0.64 0.01
+[3,] 0.53 0.83 0.50 0.60 0.43 0.31
+[4,] 0.22 0.44 0.41 0.82 0.16 0.60
+>
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+>
+> proc.time()
+   user  system elapsed
+  0.145   0.020   0.155

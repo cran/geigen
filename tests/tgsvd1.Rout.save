@@ -1,0 +1,51 @@
+
+R version 3.2.0 Patched (2015-05-11 r68355) -- "Full of Ingredients"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+>
+> library("geigen")
+> source("testgsvd.R")
+>
+> # Example from Matlab
+> # http://nl.mathworks.com/help/matlab/ref/gsvd.html
+> # also see http://www.netlib.org/lapack/lug/node36.html
+>
+> A <- matrix(1:15, nrow=5,ncol=3)
+>
+> B <- matrix(c(8,1,6,
++               3,5,7,
++               4,9,2), nrow=3)
+>
+> A
+     [,1] [,2] [,3]
+[1,]    1    6   11
+[2,]    2    7   12
+[3,]    3    8   13
+[4,]    4    9   14
+[5,]    5   10   15
+> B
+     [,1] [,2] [,3]
+[1,]    8    3    4
+[2,]    1    5    9
+[3,]    6    7    2
+>
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+>
+> proc.time()
+   user  system elapsed
+  0.147   0.020   0.157

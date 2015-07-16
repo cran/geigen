@@ -75,3 +75,8 @@
 # .gges_Lapackerror(3,4)
 # .ggev_Lapackerror(2,4)
 # .sygv_Lapackerror(6,4)
+
+.gsvd_Lapackerror <- function(info, n) {
+    if(info < 0 ) stop("(Internal) Bad call of Lapack routine")
+    if(info > 0 ) warning("Jacobi-type procedure failed to converge")
+}

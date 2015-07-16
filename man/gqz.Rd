@@ -19,7 +19,7 @@ If either one of the matrices is complex the other matrix is coerced to be compl
 If the matrices are complex and Hermitian then the matrix \code{B} must be positive definite.
 
 The \code{sort} argument specifies how to order the eigenvalues on the
-diagonal of the generalized Schur form, where it is noted that non-finite eigenvalues never 
+diagonal of the generalized Schur form, where it is noted that non-finite eigenvalues never
 satisfy any ordering condition (even in the case of a complex infinity).
 Eigenvalues that are placed in the leading block of the Schur form
 satisfy
@@ -35,7 +35,7 @@ satisfy
 \value{
 The generalized Schur form for \emph{numeric} matrices is
 \deqn{ (A,B) = (Q S Z^T, Q T Z^T)}{(A,B) = (Q*S*Z^T, Q*T*Z^T)}
-The matrices \eqn{Q}{Q} and \eqn{Z}{Z} are unitary. The matrix \eqn{S}{S} is quasi-upper triangular and
+The matrices \eqn{Q}{Q} and \eqn{Z}{Z} are orthogonal. The matrix \eqn{S}{S} is quasi-upper triangular and
 the matrix \eqn{T}{T} is upper triangular.
 The return value is a list containing the following components
 \describe{
@@ -68,7 +68,7 @@ The generalized eigenvalues can be computed by calling function \code{gevalues}.
 }
 \source{
   \code{gqz} uses the LAPACK routines \code{DGGES} and \code{ZGGES}.
-  LAPACK is from \url{http://www.netlib.org/lapack}. 
+  LAPACK is from \url{http://www.netlib.org/lapack}.
   The complex routines used by the package come from LAPACK version 3.4.2.
 }
 \references{
@@ -101,8 +101,8 @@ z <- gqz(A, B,"R")
 z
 
 # complexify
-A <- A+0i 
-B <- B+0i 
+A <- A+0i
+B <- B+0i
 z <- gqz(A, B,"R")
 z
 }

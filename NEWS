@@ -1,3 +1,8 @@
+1.6
+
+o added a Generalized Singular Value Decomposition of a matrix pair
+o documentation tweaks
+
 1.5
 
 o change to titlecase in several places and update CITATION
