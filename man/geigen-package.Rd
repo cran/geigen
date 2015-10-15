@@ -25,7 +25,7 @@ The package uses routines provided by the Lapack linear algebra package.
 % ~~ functions ~~
 % }
 
-\author{Berend Hasselman \email{bhh@xs4all.nl}}
+\author{Berend Hasselman \email{bhh@xs4all.nl}, Lapack authors}
 
 % \references{
 % % ~~ Literature or other references for background information ~~

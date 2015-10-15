@@ -42,7 +42,7 @@ no components \eqn{\alpha}{alpha} and \eqn{\beta}{beta} are available.}
 \value{
 A list containing components
   \item{values}{a vector containing the \eqn{n} generalized eigenvalues.}
-  \item{vectors}{an \eqn{n} * \eqn{n} matrix containing the generalized eigenvectors or NULL
+  \item{vectors}{an \eqn{n\times n}{n-by-n} matrix containing the generalized eigenvectors or NULL
   if \code{only.values} is \code{TRUE}.}
   \item{alpha}{the numerator of the generalized eigenvalues and may be NULL if not applicable.}
   \item{beta}{the denominator of the generalized eigenvalues and may be NULL if not applicable.}

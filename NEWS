@@ -1,3 +1,9 @@
+1.7
+
+o documentation tweaks
+o gsvd does not handle complex matrices
+o removed CITATION and let it be auto generated (to get details correct)
+
 1.6
 
 o added a Generalized Singular Value Decomposition of a matrix pair

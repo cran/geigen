@@ -44,11 +44,11 @@ The return value is a list containing the following components
   \item{\code{l}}{effective rank of the input matrix \eqn{B}.
                   The number of finite generalized singular values after the first \eqn{k} infinite ones.}
   \item{\code{alpha}}{a numeric vector with length \eqn{n} containing
-                      the numerators of the generalized singular values in entries
-                      \eqn{1} \ldots \eqn{k{+}l}{k+l}.}
+                      the numerators of the generalized singular values in
+                      the first \eqn{(k{+}l)} entries.}
   \item{\code{beta}}{a numeric vector with length \eqn{n} containing
-                     the denominators of the generalized singular value in entries
-                     \eqn{1} \ldots \eqn{k{+}l}{k+l}.}
+                     the denominators of the generalized singular value in
+                     the first \eqn{(k{+}l)} entries.}
   \item{\code{U}}{the orthogonal matrix \eqn{U}.}
   \item{\code{V}}{the orthogonal matrix \eqn{V}.}
   \item{\code{Q}}{the orthogonal matrix \eqn{Q}.}

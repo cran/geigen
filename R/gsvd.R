@@ -16,6 +16,8 @@ gsvd <- function(A,B) {
     if(!all(is.finite(A))) stop("Matrix A may not contain infinite/NaN/NA")
     if(!all(is.finite(B))) stop("Matrix B may not contain infinite/NaN/NA")
 
+    if( is.complex(A) | is.complex(B) ) stop("Matrices A,B may not be complex")
+
     kjobu <- 1L # Orthogonal matrix U is computed
     kjobv <- 1L # Orthogonal matrix V is computed
     kjobq <- 1L # Orthogonal matrix Q is computed
