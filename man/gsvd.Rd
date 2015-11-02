@@ -7,21 +7,40 @@
 gsvd(A,B)
 }
 \arguments{
- \item{A}{a numeric matrix with \eqn{m}{m} rows and \eqn{n}{n} columns.}
- \item{B}{a numeric matrix with \eqn{p}{p} rows and \eqn{n}{n} columns.}
+ \item{A}{a  matrix with \eqn{m}{m} rows and \eqn{n}{n} columns.}
+ \item{B}{a  matrix with \eqn{p}{p} rows and \eqn{n}{n} columns.}
 }
 \details{
 The matrix A is a \eqn{m}-by-\eqn{n} matrix and the matrix B is a \eqn{p}-by-\eqn{n} matrix.
-This function decomposes both matrices.
-The Generalized Singular Value Decomposition of the matrices \eqn{A} and \eqn{B}
+This function decomposes both matrices; if either one is complex than the other matrix
+is coerced to be complex.
+
+The Generalized Singular Value Decomposition of \emph{numeric} matrices \eqn{A} and \eqn{B}
 is given as
 \deqn{A = U D_1 [0\, R] Q^T}{A = U * D_1 * [0 R] * t(Q)} and
 \deqn{B = V D_2 [0\, R] Q^T}{B = V * D_2 * [0 R] * t(Q)}
 where
 \describe{
 \item{\eqn{U}}{an \eqn{m\times m}{m-by-m} orthogonal matrix.}
-\item{\eqn{V}}{a \eqn{p\times p}{p-by-p} orthogonal matrix.}
+\item{\eqn{V}}{a \eqn{p\times p}{p-by-p}  orthogonal matrix.}
 \item{\eqn{Q}}{an \eqn{n\times n}{n-by-n} orthogonal matrix.}
+\item{\eqn{R}}{an \eqn{r}-by-\eqn{r} upper triangular non singular matrix and the matrix
+\eqn{[0\, R]} is an \eqn{r}-by-\eqn{n} matrix. The quantity \eqn{r} is the rank of
+the matrix \eqn{\left( \begin{array}{c} A \\B \end{array} \right)}{rbind(A,B)} with \eqn{r \le n}{r <= n}.}
+\item{\eqn{D_1},\eqn{D_2}}{are quasi diagonal matrices and nonnegative and satisfy
+\eqn{D_1^T D_1 + D_2^T D_2 = I}{t(D_1)\%*\% D_1 + t(D_2) \%*\% D_2}.
+\eqn{D_1} is an \eqn{m}-by-\eqn{r} matrix and \eqn{D_2} is a \eqn{p}-by-\eqn{r} matrix.}
+}
+
+The Generalized Singular Value Decomposition of \emph{complex} matrices \eqn{A} and \eqn{B}
+is given as
+\deqn{A = U D_1 [0\, R] Q^H}{A = U * D_1 * [0 R] * t(Q)} and
+\deqn{B = V D_2 [0\, R] Q^H}{B = V * D_2 * [0 R] * t(Q)}
+where
+\describe{
+\item{\eqn{U}}{an \eqn{m\times m}{m-by-m} unitary matrix.}
+\item{\eqn{V}}{a \eqn{p\times p}{p-by-p}  unitary matrix.}
+\item{\eqn{Q}}{an \eqn{n\times n}{n-by-n} unitary matrix.}
 \item{\eqn{R}}{an \eqn{r}-by-\eqn{r} upper triangular non singular matrix and the matrix
 \eqn{[0\, R]} is an \eqn{r}-by-\eqn{n} matrix. The quantity \eqn{r} is the rank of
 the matrix \eqn{\left( \begin{array}{c} A \\B \end{array} \right)}{rbind(A,B)} with \eqn{r \le n}{r <= n}.}
@@ -49,26 +68,26 @@ The return value is a list containing the following components
   \item{\code{beta}}{a numeric vector with length \eqn{n} containing
                      the denominators of the generalized singular value in
                      the first \eqn{(k{+}l)} entries.}
-  \item{\code{U}}{the orthogonal matrix \eqn{U}.}
-  \item{\code{V}}{the orthogonal matrix \eqn{V}.}
-  \item{\code{Q}}{the orthogonal matrix \eqn{Q}.}
+  \item{\code{U}}{the matrix \eqn{U}.}
+  \item{\code{V}}{the matrix \eqn{V}.}
+  \item{\code{Q}}{the matrix \eqn{Q}.}
 }
 For a detailed description of these items see \url{http://www.netlib.org/lapack/lug/node36.html}.
 Auxiliary functions are provided for extraction and manipulation of the various items.
 }
 \source{
-  \code{gsvd} uses the LAPACK routine \code{DGGSVD}.
+  \code{gsvd} uses the LAPACK routines \code{DGGSVD} and \code{ZGGSVD}.
   LAPACK is from \url{http://www.netlib.org/lapack}.
   The decomposition is fully explained in \url{http://www.netlib.org/lapack/lug/node36.html}.
 }
 \references{
   Anderson. E. and ten others (1999)
-  \emph{LAPACK Users Guide}. Third Edition. SIAM.\cr
+  \emph{LAPACK Users' Guide}. Third Edition. SIAM.\cr%'
   Available on-line at
   \url{http://www.netlib.org/lapack/lug/lapack_lug.html}.
   See the section \emph{Generalized Eigenvalue and Singular Value Problems}
   (\url{http://www.netlib.org/lapack/lug/node33.html}) and
-  and the section \emph{Generalized Singular Value Decomposition (GSVD)}
+  the section \emph{Generalized Singular Value Decomposition (GSVD)}
   (\url{http://www.netlib.org/lapack/lug/node36.html}).
 }
 \seealso{

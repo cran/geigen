@@ -1,5 +1,5 @@
 
-R version 3.2.0 Patched (2015-05-11 r68355) -- "Full of Ingredients"
+R version 3.2.2 Patched (2015-10-19 r69552) -- "Fire Safety"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-apple-darwin13.4.0 (64-bit)
 
@@ -15,30 +15,46 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
->
+> 
 > library("geigen")
 > source("testgsvd.R")
->
-> # Example from NAG F08VAF
->
-> A <- matrix(c(1,2,3,3,2,1,4,5,6,7,8,8), nrow=2, byrow=TRUE)
->
-> B <- matrix(1:18,byrow=TRUE, ncol=6)
->
-> A
-     [,1] [,2] [,3] [,4] [,5] [,6]
-[1,]    1    2    3    3    2    1
-[2,]    4    5    6    7    8    8
-> B
-     [,1] [,2] [,3] [,4] [,5] [,6]
-[1,]    1    2    3    4    5    6
-[2,]    7    8    9   10   11   12
-[3,]   13   14   15   16   17   18
->
+> 
+> # double
+> set.seed(11)
+> A <- matrix(round(runif(18),2), nrow=3, byrow=TRUE)
+> B <- matrix(round(runif(30),2), ncol=6, byrow=TRUE)
 > z <- gsvd(A,B)
 > testgsvd(z,A,B)
 [1] TRUE TRUE TRUE TRUE
->
+> 
+> set.seed(11)
+> A <- matrix(round(runif(18),2), nrow=3, byrow=TRUE)
+> B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+> 
+> set.seed(11)
+> A <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+> B <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+> 
+> set.seed(11)
+> A <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+> B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+> 
+> set.seed(11)
+> A <- matrix(round(runif(12),2), nrow=2, byrow=TRUE)
+> B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+> 
 > proc.time()
-   user  system elapsed
-  0.145   0.020   0.155
+   user  system elapsed 
+  0.158   0.023   0.170 

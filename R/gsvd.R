@@ -1,5 +1,5 @@
 
-is.gsvd <- function(x) inherits(x,"xdgsvd")
+is.gsvd <- function(x) inherits(x,"xdgsvd") || inherits(x,"xzgsvd")
 
 gsvd <- function(A,B) {
 
@@ -16,7 +16,19 @@ gsvd <- function(A,B) {
     if(!all(is.finite(A))) stop("Matrix A may not contain infinite/NaN/NA")
     if(!all(is.finite(B))) stop("Matrix B may not contain infinite/NaN/NA")
 
-    if( is.complex(A) | is.complex(B) ) stop("Matrices A,B may not be complex")
+    complex.A <- is.complex(A)
+    complex.B <- is.complex(B)
+    complex.AB <- FALSE
+    if( is.complex(A) || is.complex(B) ) {
+        # at least one matrix is complex ==> use complex routines
+        if( !complex.A ) storage.mode(A) <- "complex"
+        if( !complex.B ) storage.mode(B) <- "complex"
+        complex.AB <- TRUE
+    } else {
+        # none of the matrices is complex ==> use double routines
+        if( !is.double(A) ) storage.mode(A) <- "double"
+        if( !is.double(B) ) storage.mode(B) <- "double"
+    }
 
     kjobu <- 1L # Orthogonal matrix U is computed
     kjobv <- 1L # Orthogonal matrix V is computed
@@ -26,25 +38,38 @@ gsvd <- function(A,B) {
     n <- as.integer(dimA[2]) # number of columns A and B
     p <- as.integer(dimB[1]) # number of rows B
 
-    if( !is.double(A) ) storage.mode(A) <- "double"
-    if( !is.double(B) ) storage.mode(B) <- "double"
+    if( complex.AB ) {
+        z <- .Fortran("xzggsvd", kjobu, kjobv, kjobq,
+                                 m, n, p,
+                                 k=integer(1L), l=integer(1L),
+                                 A=A, m, B=B, p,
+                                 alpha=numeric(n), beta=numeric(n),
+                                 U=matrix(complex(m*m),nrow=m), m, V=matrix(complex(p*p),nrow=p), p,
+                                 Q=matrix(complex(n*n),nrow=n), n,
+                                 work=complex(pmax(3*n,m,p)+n), rwork=numeric(2*n),
+                                 iwork=integer(n),
+                                 info=integer(1L)
+                      )
+        zclass <- "xzgsvd"
+    } else {
+        z <- .Fortran("xdggsvd", kjobu, kjobv, kjobq,
+                                 m, n, p,
+                                 k=integer(1L), l=integer(1L),
+                                 A=A, m, B=B, p,
+                                 alpha=numeric(n), beta=numeric(n),
+                                 U=matrix(numeric(m*m),nrow=m), m, V=matrix(numeric(p*p),nrow=p), p,
+                                 Q=matrix(numeric(n*n),nrow=n), n,
+                                 work=numeric(pmax(3*n,m,p)+n),
+                                 iwork=integer(n),
+                                 info=integer(1L)
+                      )
+        zclass <- "xdgsvd"
+    }
+    if(z$info!=0) .gsvd_Lapackerror(z$info)
 
-    z <- .Fortran("xdggsvd", kjobu, kjobv, kjobq,
-                             m, n, p,
-                             k=integer(1L), l=integer(1L),
-                             A=A, m, B=B, p,
-                             alpha=numeric(n), beta=numeric(n),
-                             U=matrix(numeric(m*m),nrow=m), m, V=matrix(numeric(p*p),nrow=p), p,
-                             Q=matrix(numeric(n*n),nrow=n), n,
-                             work=numeric(pmax(3*n,m,p)+n),
-                             iwork=integer(n),
-                             info=integer(1L)
-                  )
-     if(z$info!=0) .gsvd_Lapackerror(z$info)
-
-     ret <- list(A=z$A, B=z$B, m=m, k=z$k, l=z$l, alpha=z$alpha, beta=z$beta, U=z$U, V=z$V, Q=z$Q)
-     class(ret) <- "xdgsvd"
-     ret
+    ret <- list(A=z$A, B=z$B, m=m, k=z$k, l=z$l, alpha=z$alpha, beta=z$beta, U=z$U, V=z$V, Q=z$Q)
+    class(ret) <- zclass
+    ret
 }
 
 # as it is coded in lapack's testing dgsvts.f

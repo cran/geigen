@@ -8,8 +8,8 @@ The \pkg{geigen} package provides functions to compute the generalized eigenvalu
 optionally provides the generalized eigenvectors. Both numeric and complex matrices are allowed.
 The package also provides a function for computing the generalized Schur decomposition of a pair of matrices,
 either numeric or complex.
-Finally the package provides a function for computing the generalized singular value decomposition
-for a numeric pair of matrices.
+Finally the package provides a function for computing the generalized singular value
+decomposition for a pair of matrices, either numeric or complex.
 The package uses routines provided by the Lapack linear algebra package.
 % The package uses Lapack subroutines and calls these with the .Fortran interface.
 }

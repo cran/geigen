@@ -2,8 +2,13 @@
 testgsvd <- function(z,A,B) {
     tol <- 100*.Machine$double.eps
 
-    chkA <- t(z$U) %*% A %*% z$Q
-    chkB <- t(z$V) %*% B %*% z$Q
+    if( inherits(z,"xzgsvd") ) {
+        chkA <- Conj(t(z$U)) %*% A %*% z$Q
+        chkB <- Conj(t(z$V)) %*% B %*% z$Q
+    } else if( inherits(z,"xdgsvd") ) {
+        chkA <- t(z$U) %*% A %*% z$Q
+        chkB <- t(z$V) %*% B %*% z$Q
+    } else stop("argument z not result of gsvd")
 
     oR <- gsvd.oR(z)
     D1 <- gsvd.D1(z)
@@ -13,6 +18,8 @@ testgsvd <- function(z,A,B) {
 #    print(chkB-D2 %*% oR)
 
     ret <- logical(4)
+#    print(abs(chkA-D1 %*% oR))
+#    print(abs(chkB-D2 %*% oR))
     ret[1] <- all(abs(chkA-D1 %*% oR) <= tol)
     ret[2] <- all(abs(chkB-D2 %*% oR) <= tol)
     ret[3] <- all(abs(t(D1) %*% D1 + t(D2) %*% D2 - diag(1,nrow=z$k+z$l)) <= tol)

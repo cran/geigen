@@ -56,7 +56,7 @@ A list containing components
 }
 \references{
   Anderson. E. and ten others (1999)
-  \emph{LAPACK Users' Guide}.  Third Edition.  SIAM.\cr
+  \emph{LAPACK Users' Guide}.  Third Edition.  SIAM.\cr%'
   Available on-line at
   \url{http://www.netlib.org/lapack/lug/lapack_lug.html}.
   See the section \emph{Generalized Eigenvalue and Singular Value Problems}

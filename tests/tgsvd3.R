@@ -2,14 +2,33 @@
 library("geigen")
 source("testgsvd.R")
 
-# Example from NAG F08VAF
+# double
+set.seed(11)
+A <- matrix(round(runif(18),2), nrow=3, byrow=TRUE)
+B <- matrix(round(runif(30),2), ncol=6, byrow=TRUE)
+z <- gsvd(A,B)
+testgsvd(z,A,B)
 
-A <- matrix(c(1,2,3,3,2,1,4,5,6,7,8,8), nrow=2, byrow=TRUE)
+set.seed(11)
+A <- matrix(round(runif(18),2), nrow=3, byrow=TRUE)
+B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
+z <- gsvd(A,B)
+testgsvd(z,A,B)
 
-B <- matrix(1:18,byrow=TRUE, ncol=6)
+set.seed(11)
+A <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+B <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+z <- gsvd(A,B)
+testgsvd(z,A,B)
 
-A
-B
+set.seed(11)
+A <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
+z <- gsvd(A,B)
+testgsvd(z,A,B)
 
+set.seed(11)
+A <- matrix(round(runif(12),2), nrow=2, byrow=TRUE)
+B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
 z <- gsvd(A,B)
 testgsvd(z,A,B)

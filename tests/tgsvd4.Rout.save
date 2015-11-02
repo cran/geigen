@@ -1,5 +1,5 @@
 
-R version 3.2.0 Patched (2015-05-11 r68355) -- "Full of Ingredients"
+R version 3.2.2 Patched (2015-10-19 r69552) -- "Fire Safety"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-apple-darwin13.4.0 (64-bit)
 
@@ -15,30 +15,71 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
->
-> library("geigen")
+> 
+> library(geigen)
 > source("testgsvd.R")
->
-> set.seed(11)
-> A <- matrix(round(runif(12),2), nrow=2, byrow=TRUE)
->
-> B <- matrix(round(runif(24),2),byrow=TRUE, ncol=6)
->
-> A
-     [,1] [,2] [,3] [,4] [,5] [,6]
-[1,] 0.28 0.00 0.51 0.01 0.06 0.95
-[2,] 0.09 0.29 0.88 0.12 0.18 0.44
-> B
-     [,1] [,2] [,3] [,4] [,5] [,6]
-[1,] 0.91 0.85 0.73 0.57 0.48 0.33
-[2,] 0.16 0.48 0.20 0.68 0.36 0.35
-[3,] 0.06 0.48 0.40 0.02 0.13 0.40
-[4,] 0.50 0.33 0.41 0.20 0.81 0.64
->
+> 
+> # from NAG documentation F08VNF
+> # complex
+> A <- matrix( c( .96-.81i , -.03+.96i , -.91+2.06i, -.05+.41i,
++                -.98+1.98i, -1.20+.19i, -.66+.42i , -.81+.56i,
++                 .62-.46i ,  1.01+.02i,  .63-.17i ,-1.11+.6i,
++                 .37+.38i ,  .19-.54i ,-.98-.36i  ,  .22-.2i,
++                 .83+.51i ,  .2+.01i  ,-.17-.46i  , 1.47+1.59i,
++                1.08-.28i ,  .2-.12i  ,-.07+1.23i ,  .26+.26i),
++                nrow=6, ncol=4, byrow=TRUE)
+> 
+> B <- matrix(c(1,0,-1,0,0,1,0,-1), ncol=4, byrow=TRUE)
+> 
 > z <- gsvd(A,B)
 > testgsvd(z,A,B)
 [1] TRUE TRUE TRUE TRUE
->
+> 
+> set.seed(11)
+> A <- matrix(round(runif(18),2), nrow=3, byrow=TRUE)
+> B <- matrix(round(runif(30),2), ncol=6, byrow=TRUE)
+> A <- A+0i
+> B <- B+0i
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+> 
+> set.seed(11)
+> A <- matrix(round(runif(18),2), nrow=3, byrow=TRUE)
+> B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
+> A <- A+0i
+> B <- B+0i
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+> 
+> set.seed(11)
+> A <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+> B <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+> A <- A+0i
+> B <- B+0i
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+> 
+> set.seed(11)
+> A <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
+> B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
+> A <- A+0i
+> B <- B+0i
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+> 
+> set.seed(11)
+> A <- matrix(round(runif(12),2), nrow=2, byrow=TRUE)
+> B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
+> A <- A+0i
+> B <- B+0i
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+> 
 > proc.time()
-   user  system elapsed
-  0.146   0.019   0.155
+   user  system elapsed 
+  0.157   0.023   0.171 
