@@ -56,3 +56,15 @@ A <- A+0i
 B <- B+0i
 z <- gsvd(A,B)
 testgsvd(z,A,B)
+
+set.seed(11)
+NrowA <- 25
+NrowB <- 5
+Ncol  <- 6
+A <- matrix(round(runif(NrowA*Ncol),2), ncol=Ncol, byrow=TRUE)
+B <- matrix(round(runif(NrowB*Ncol),2), ncol=Ncol, byrow=TRUE)
+A <- A+matrix(round(runif(NrowA*Ncol),2)*1i, ncol=Ncol, byrow=TRUE)
+B <- B+matrix(round(runif(NrowB*Ncol),2)*1i, ncol=Ncol, byrow=TRUE)
+z <- gsvd(A,B)
+testgsvd(z,A,B)
+

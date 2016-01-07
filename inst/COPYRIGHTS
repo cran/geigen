@@ -1,15 +1,16 @@
-The files in src/{zggesall,zggevall,zggevdeps}.f contain code extracted from LAPACK 3.4.2 and LAPACK 3.5.0 (zgetc2).
-The files in src/zggsvd.f contain code extracted from Lapack 3.5.0
+The files in src/{zggesall,zggevall,zggevdeps}.f contain code extracted from LAPACK 3.6.0
+The files in src/zggsvdall.f contain code extracted from Lapack 3.6.0 (see NEWS for info)
+The files src/{dggsvd3.f,dggsvp3.f} have been taken from Lapack 3.6.0
 The licence of LAPACK may be found here: http://www.netlib.org/lapack/LICENSE.txt
 
 It is reproduced here for the binary distribution of this package.
 
-Copyright (c) 1992-2011 The University of Tennessee and The University
+Copyright (c) 1992-2013 The University of Tennessee and The University
                         of Tennessee Research Foundation.  All rights
                         reserved.
-Copyright (c) 2000-2011 The University of California Berkeley. All
+Copyright (c) 2000-2013 The University of California Berkeley. All
                         rights reserved.
-Copyright (c) 2006-2012 The University of Colorado Denver.  All rights
+Copyright (c) 2006-2013 The University of Colorado Denver.  All rights
                         reserved.
 
 $COPYRIGHT$

@@ -2,11 +2,12 @@ c Wrapper for Lapack's zggsvd
 
       subroutine xzggsvd(kjobu, kjobv, kjobq, m, n, p, k, l, a, lda, b,
      *                   ldb, alpha, beta, u, ldu, v, ldv, q, ldq,
-     *                   work, rwork, iwork, info)
+     *                   work, lwork, rwork, iwork, info)
 c
 c     .. scalar arguments ..
       integer            kjobu, kjobv, kjobq
       integer            info, k, l, lda, ldb, ldq, ldu, ldv, m, n, p
+      integer lwork
 c     ..
 c     .. array arguments ..
       integer            iwork(*)
@@ -26,9 +27,9 @@ c     select job parameters
 c     jobu = 'U'
 c     jobv = 'V'
 c     jobq = 'Q'
-      call zggsvd(jobu, jobv, jobq, m, n, p, k, l, A, lda, B, ldb,
+      call zggsvd3(jobu, jobv, jobq, m, n, p, k, l, A, lda, B, ldb,
      *            alpha, beta, u, ldu, v, ldv, q, ldq,
-     *            work, rwork, iwork, info)
+     *            work, lwork, rwork, iwork, info)
 
       return
       end

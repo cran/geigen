@@ -1,5 +1,5 @@
 
-R version 3.2.2 Patched (2015-10-19 r69552) -- "Fire Safety"
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-apple-darwin13.4.0 (64-bit)
 
@@ -15,10 +15,10 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> 
+>
 > library(geigen)
 > source("testgsvd.R")
-> 
+>
 > # from NAG documentation F08VNF
 > # complex
 > A <- matrix( c( .96-.81i , -.03+.96i , -.91+2.06i, -.05+.41i,
@@ -28,13 +28,13 @@ Type 'q()' to quit R.
 +                 .83+.51i ,  .2+.01i  ,-.17-.46i  , 1.47+1.59i,
 +                1.08-.28i ,  .2-.12i  ,-.07+1.23i ,  .26+.26i),
 +                nrow=6, ncol=4, byrow=TRUE)
-> 
+>
 > B <- matrix(c(1,0,-1,0,0,1,0,-1), ncol=4, byrow=TRUE)
-> 
+>
 > z <- gsvd(A,B)
 > testgsvd(z,A,B)
 [1] TRUE TRUE TRUE TRUE
-> 
+>
 > set.seed(11)
 > A <- matrix(round(runif(18),2), nrow=3, byrow=TRUE)
 > B <- matrix(round(runif(30),2), ncol=6, byrow=TRUE)
@@ -43,7 +43,7 @@ Type 'q()' to quit R.
 > z <- gsvd(A,B)
 > testgsvd(z,A,B)
 [1] TRUE TRUE TRUE TRUE
-> 
+>
 > set.seed(11)
 > A <- matrix(round(runif(18),2), nrow=3, byrow=TRUE)
 > B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
@@ -52,7 +52,7 @@ Type 'q()' to quit R.
 > z <- gsvd(A,B)
 > testgsvd(z,A,B)
 [1] TRUE TRUE TRUE TRUE
-> 
+>
 > set.seed(11)
 > A <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
 > B <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
@@ -61,7 +61,7 @@ Type 'q()' to quit R.
 > z <- gsvd(A,B)
 > testgsvd(z,A,B)
 [1] TRUE TRUE TRUE TRUE
-> 
+>
 > set.seed(11)
 > A <- matrix(round(runif(36),2), ncol=6, byrow=TRUE)
 > B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
@@ -70,7 +70,7 @@ Type 'q()' to quit R.
 > z <- gsvd(A,B)
 > testgsvd(z,A,B)
 [1] TRUE TRUE TRUE TRUE
-> 
+>
 > set.seed(11)
 > A <- matrix(round(runif(12),2), nrow=2, byrow=TRUE)
 > B <- matrix(round(runif(24),2), ncol=6, byrow=TRUE)
@@ -79,7 +79,20 @@ Type 'q()' to quit R.
 > z <- gsvd(A,B)
 > testgsvd(z,A,B)
 [1] TRUE TRUE TRUE TRUE
-> 
+>
+> set.seed(11)
+> NrowA <- 25
+> NrowB <- 5
+> Ncol  <- 6
+> A <- matrix(round(runif(NrowA*Ncol),2), ncol=Ncol, byrow=TRUE)
+> B <- matrix(round(runif(NrowB*Ncol),2), ncol=Ncol, byrow=TRUE)
+> A <- A+matrix(round(runif(NrowA*Ncol),2)*1i, ncol=Ncol, byrow=TRUE)
+> B <- B+matrix(round(runif(NrowB*Ncol),2)*1i, ncol=Ncol, byrow=TRUE)
+> z <- gsvd(A,B)
+> testgsvd(z,A,B)
+[1] TRUE TRUE TRUE TRUE
+>
+>
 > proc.time()
-   user  system elapsed 
-  0.157   0.023   0.171 
+   user  system elapsed
+  0.157   0.023   0.170

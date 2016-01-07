@@ -39,6 +39,8 @@ gsvd <- function(A,B) {
     p <- as.integer(dimB[1]) # number of rows B
 
     if( complex.AB ) {
+        lwork <- -1L
+        work  <- complex(1)
         z <- .Fortran("xzggsvd", kjobu, kjobv, kjobq,
                                  m, n, p,
                                  k=integer(1L), l=integer(1L),
@@ -46,12 +48,30 @@ gsvd <- function(A,B) {
                                  alpha=numeric(n), beta=numeric(n),
                                  U=matrix(complex(m*m),nrow=m), m, V=matrix(complex(p*p),nrow=p), p,
                                  Q=matrix(complex(n*n),nrow=n), n,
-                                 work=complex(pmax(3*n,m,p)+n), rwork=numeric(2*n),
+                                 work=work, lwork, rwork=numeric(2*n),
                                  iwork=integer(n),
-                                 info=integer(1L)
+                                 info=integer(1L), PACKAGE="geigen"
+                      )
+
+        lwork <- as.integer(z$work[1])
+        work  <- complex(lwork)
+
+        z <- .Fortran("xzggsvd", kjobu, kjobv, kjobq,
+                                 m, n, p,
+                                 k=integer(1L), l=integer(1L),
+                                 A=A, m, B=B, p,
+                                 alpha=numeric(n), beta=numeric(n),
+                                 U=matrix(complex(m*m),nrow=m), m, V=matrix(complex(p*p),nrow=p), p,
+                                 Q=matrix(complex(n*n),nrow=n), n,
+                                 work=work, lwork, rwork=numeric(2*n),
+                                 iwork=integer(n),
+                                 info=integer(1L), PACKAGE="geigen"
                       )
         zclass <- "xzgsvd"
     } else {
+        lwork <- -1L
+        work  <- numeric(1)
+
         z <- .Fortran("xdggsvd", kjobu, kjobv, kjobq,
                                  m, n, p,
                                  k=integer(1L), l=integer(1L),
@@ -59,9 +79,24 @@ gsvd <- function(A,B) {
                                  alpha=numeric(n), beta=numeric(n),
                                  U=matrix(numeric(m*m),nrow=m), m, V=matrix(numeric(p*p),nrow=p), p,
                                  Q=matrix(numeric(n*n),nrow=n), n,
-                                 work=numeric(pmax(3*n,m,p)+n),
+                                 work=work, lwork,
                                  iwork=integer(n),
-                                 info=integer(1L)
+                                 info=integer(1L), PACKAGE="geigen"
+                      )
+
+        lwork <- as.integer(z$work[1])
+        work  <- numeric(lwork)
+
+        z <- .Fortran("xdggsvd", kjobu, kjobv, kjobq,
+                                 m, n, p,
+                                 k=integer(1L), l=integer(1L),
+                                 A=A, m, B=B, p,
+                                 alpha=numeric(n), beta=numeric(n),
+                                 U=matrix(numeric(m*m),nrow=m), m, V=matrix(numeric(p*p),nrow=p), p,
+                                 Q=matrix(numeric(n*n),nrow=n), n,
+                                 work=work, lwork,
+                                 iwork=integer(n),
+                                 info=integer(1L), PACKAGE="geigen"
                       )
         zclass <- "xdgsvd"
     }

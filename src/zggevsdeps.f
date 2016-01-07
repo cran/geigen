@@ -131,7 +131,7 @@
 *> \author Univ. of Colorado Denver 
 *> \author NAG Ltd. 
 *
-*> \date November 2011
+*> \date November 2015
 *
 *> \ingroup complex16GBcomputational
 *
@@ -148,10 +148,10 @@
       SUBROUTINE ZGGBAK( JOB, SIDE, N, ILO, IHI, LSCALE, RSCALE, M, V,
      $                   LDV, INFO )
 *
-*  -- LAPACK computational routine (version 3.4.0) --
+*  -- LAPACK computational routine (version 3.6.0) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     November 2011
+*     November 2015
 *
 *     .. Scalar Arguments ..
       CHARACTER          JOB, SIDE
@@ -176,7 +176,7 @@
       EXTERNAL           XERBLA, ZDSCAL, ZSWAP
 *     ..
 *     .. Intrinsic Functions ..
-      INTRINSIC          MAX
+      INTRINSIC          MAX, INT
 *     ..
 *     .. Executable Statements ..
 *
@@ -256,7 +256,7 @@
             IF( ILO.EQ.1 )
      $         GO TO 50
             DO 40 I = ILO - 1, 1, -1
-               K = RSCALE( I )
+               K = INT(RSCALE( I ))
                IF( K.EQ.I )
      $            GO TO 40
                CALL ZSWAP( M, V( I, 1 ), LDV, V( K, 1 ), LDV )
@@ -266,7 +266,7 @@
             IF( IHI.EQ.N )
      $         GO TO 70
             DO 60 I = IHI + 1, N
-               K = RSCALE( I )
+               K = INT(RSCALE( I ))
                IF( K.EQ.I )
      $            GO TO 60
                CALL ZSWAP( M, V( I, 1 ), LDV, V( K, 1 ), LDV )
@@ -280,7 +280,7 @@
             IF( ILO.EQ.1 )
      $         GO TO 90
             DO 80 I = ILO - 1, 1, -1
-               K = LSCALE( I )
+               K = INT(LSCALE( I ))
                IF( K.EQ.I )
      $            GO TO 80
                CALL ZSWAP( M, V( I, 1 ), LDV, V( K, 1 ), LDV )
@@ -290,7 +290,7 @@
             IF( IHI.EQ.N )
      $         GO TO 110
             DO 100 I = IHI + 1, N
-               K = LSCALE( I )
+               K = INT(LSCALE( I ))
                IF( K.EQ.I )
      $            GO TO 100
                CALL ZSWAP( M, V( I, 1 ), LDV, V( K, 1 ), LDV )
@@ -467,7 +467,7 @@
 *> \author Univ. of Colorado Denver 
 *> \author NAG Ltd. 
 *
-*> \date November 2011
+*> \date November 2015
 *
 *> \ingroup complex16GBcomputational
 *
@@ -484,10 +484,10 @@
       SUBROUTINE ZGGBAL( JOB, N, A, LDA, B, LDB, ILO, IHI, LSCALE,
      $                   RSCALE, WORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.4.0) --
+*  -- LAPACK computational routine (version 3.6.0) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     November 2011
+*     November 2015
 *
 *     .. Scalar Arguments ..
       CHARACTER          JOB
@@ -845,7 +845,7 @@
          IRAB = IZAMAX( N-ILO+1, B( I, ILO ), LDB )
          RAB = MAX( RAB, ABS( B( I, IRAB+ILO-1 ) ) )
          LRAB = INT( LOG10( RAB+SFMIN ) / BASL+ONE )
-         IR = LSCALE( I ) + SIGN( HALF, LSCALE( I ) )
+         IR = INT(LSCALE( I ) + SIGN( HALF, LSCALE( I ) ))
          IR = MIN( MAX( IR, LSFMIN ), LSFMAX, LSFMAX-LRAB )
          LSCALE( I ) = SCLFAC**IR
          ICAB = IZAMAX( IHI, A( 1, I ), 1 )
@@ -853,7 +853,7 @@
          ICAB = IZAMAX( IHI, B( 1, I ), 1 )
          CAB = MAX( CAB, ABS( B( ICAB, I ) ) )
          LCAB = INT( LOG10( CAB+SFMIN ) / BASL+ONE )
-         JC = RSCALE( I ) + SIGN( HALF, RSCALE( I ) )
+         JC = INT(RSCALE( I ) + SIGN( HALF, RSCALE( I ) ))
          JC = MIN( MAX( JC, LSFMIN ), LSFMAX, LSFMAX-LCAB )
          RSCALE( I ) = SCLFAC**JC
   360 CONTINUE
@@ -958,11 +958,11 @@
 *> \param[in] COMPZ
 *> \verbatim
 *>          COMPZ is CHARACTER*1
-*>          = 'N': do not compute Q;
-*>          = 'I': Q is initialized to the unit matrix, and the
-*>                 unitary matrix Q is returned;
-*>          = 'V': Q must contain a unitary matrix Q1 on entry,
-*>                 and the product Q1*Q is returned.
+*>          = 'N': do not compute Z;
+*>          = 'I': Z is initialized to the unit matrix, and the
+*>                 unitary matrix Z is returned;
+*>          = 'V': Z must contain a unitary matrix Z1 on entry,
+*>                 and the product Z1*Z is returned.
 *> \endverbatim
 *>
 *> \param[in] N
@@ -1065,7 +1065,7 @@
 *> \author Univ. of Colorado Denver 
 *> \author NAG Ltd. 
 *
-*> \date November 2011
+*> \date November 2015
 *
 *> \ingroup complex16OTHERcomputational
 *
@@ -1083,10 +1083,10 @@
       SUBROUTINE ZGGHRD( COMPQ, COMPZ, N, ILO, IHI, A, LDA, B, LDB, Q,
      $                   LDQ, Z, LDZ, INFO )
 *
-*  -- LAPACK computational routine (version 3.4.0) --
+*  -- LAPACK computational routine (version 3.6.0) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     November 2011
+*     November 2015
 *
 *     .. Scalar Arguments ..
       CHARACTER          COMPQ, COMPZ
@@ -1524,7 +1524,7 @@
      $                   ALPHA, BETA, Q, LDQ, Z, LDZ, WORK, LWORK,
      $                   RWORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.4.1) --
+*  -- LAPACK computational routine (version 3.6.0) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
 *     April 2012
@@ -1694,7 +1694,7 @@
                CALL ZSCAL( J-1, SIGNBC, T( 1, J ), 1 )
                CALL ZSCAL( J, SIGNBC, H( 1, J ), 1 )
             ELSE
-               H( J, J ) = H( J, J )*SIGNBC
+               CALL ZSCAL( 1, SIGNBC, H( J, J ), 1 )
             END IF
             IF( ILZ )
      $         CALL ZSCAL( N, SIGNBC, Z( 1, J ), 1 )
@@ -1906,7 +1906,7 @@
                CALL ZSCAL( ILAST+1-IFRSTM, SIGNBC, H( IFRSTM, ILAST ),
      $                     1 )
             ELSE
-               H( ILAST, ILAST ) = H( ILAST, ILAST )*SIGNBC
+               CALL ZSCAL( 1, SIGNBC, H( ILAST, ILAST ), 1 )
             END IF
             IF( ILZ )
      $         CALL ZSCAL( N, SIGNBC, Z( 1, ILAST ), 1 )
@@ -2090,7 +2090,7 @@
                CALL ZSCAL( J-1, SIGNBC, T( 1, J ), 1 )
                CALL ZSCAL( J, SIGNBC, H( 1, J ), 1 )
             ELSE
-               H( J, J ) = H( J, J )*SIGNBC
+               CALL ZSCAL( 1, SIGNBC, H( J, J ), 1 )
             END IF
             IF( ILZ )
      $         CALL ZSCAL( N, SIGNBC, Z( 1, J ), 1 )

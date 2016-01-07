@@ -69,7 +69,7 @@ The generalized eigenvalues can be computed by calling function \code{gevalues}.
 \source{
   \code{gqz} uses the LAPACK routines \code{DGGES} and \code{ZGGES}.
   LAPACK is from \url{http://www.netlib.org/lapack}.
-  The complex routines used by the package come from LAPACK version 3.4.2.
+  The complex routines used by the package come from LAPACK 3.6.0.
 }
 \references{
   Anderson. E. and ten others (1999)

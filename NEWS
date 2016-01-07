@@ -1,3 +1,8 @@
+1.9
+
+o update to routines from Lapack 3.6.0 and use new gsvd routines
+o Lapack zzgsvd3 and zzgsvp3 from svn revision 1664 and 1671
+
 1.8
 
 o gsvd now also handles complex matrices
