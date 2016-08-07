@@ -76,7 +76,7 @@ For a detailed description of these items see \url{http://www.netlib.org/lapack/
 Auxiliary functions are provided for extraction and manipulation of the various items.
 }
 \source{
-  \code{gsvd} uses the LAPACK routines \code{DGGSVD3} and \code{ZGGSVD3} from Lapack 3.6.0.
+  \code{gsvd} uses the LAPACK routines \code{DGGSVD3} and \code{ZGGSVD3} from Lapack 3.6.1.
   LAPACK is from \url{http://www.netlib.org/lapack}.
   The decomposition is fully explained in \url{http://www.netlib.org/lapack/lug/node36.html}.
 }

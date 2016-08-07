@@ -447,7 +447,7 @@
 *>
 *> \param[out] WORK
 *> \verbatim
-*>          WORK is REAL array, dimension (lwork)
+*>          WORK is DOUBLE PRECISION array, dimension (lwork)
 *>          lwork must be at least max(1,6*N) when JOB = 'S' or 'B', and
 *>          at least 1 when JOB = 'N' or 'P'.
 *> \endverbatim
@@ -467,7 +467,7 @@
 *> \author Univ. of Colorado Denver 
 *> \author NAG Ltd. 
 *
-*> \date November 2015
+*> \date June 2016
 *
 *> \ingroup complex16GBcomputational
 *
@@ -484,10 +484,10 @@
       SUBROUTINE ZGGBAL( JOB, N, A, LDA, B, LDB, ILO, IHI, LSCALE,
      $                   RSCALE, WORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.6.0) --
+*  -- LAPACK computational routine (version 3.6.1) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     November 2015
+*     June 2016
 *
 *     .. Scalar Arguments ..
       CHARACTER          JOB
@@ -1430,12 +1430,12 @@
 *> \param[in,out] Q
 *> \verbatim
 *>          Q is COMPLEX*16 array, dimension (LDQ, N)
-*>          On entry, if COMPZ = 'V', the unitary matrix Q1 used in the
+*>          On entry, if COMPQ = 'V', the unitary matrix Q1 used in the
 *>          reduction of (A,B) to generalized Hessenberg form.
-*>          On exit, if COMPZ = 'I', the unitary matrix of left Schur
-*>          vectors of (H,T), and if COMPZ = 'V', the unitary matrix of
+*>          On exit, if COMPQ = 'I', the unitary matrix of left Schur
+*>          vectors of (H,T), and if COMPQ = 'V', the unitary matrix of
 *>          left Schur vectors of (A,B).
-*>          Not referenced if COMPZ = 'N'.
+*>          Not referenced if COMPQ = 'N'.
 *> \endverbatim
 *>
 *> \param[in] LDQ
@@ -1524,7 +1524,7 @@
      $                   ALPHA, BETA, Q, LDQ, Z, LDZ, WORK, LWORK,
      $                   RWORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.6.0) --
+*  -- LAPACK computational routine (version 3.6.1) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
 *     April 2012

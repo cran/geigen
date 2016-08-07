@@ -2,18 +2,18 @@
 *
 *  =========== DOCUMENTATION ===========
 *
-* Online html documentation available at
-*            http://www.netlib.org/lapack/explore-html/
+* Online html documentation available at 
+*            http://www.netlib.org/lapack/explore-html/ 
 *
 *> \htmlonly
-*> Download ZGGSVD3 + dependencies
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zggsvd3.f">
-*> [TGZ]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zggsvd3.f">
-*> [ZIP]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zggsvd3.f">
+*> Download ZGGSVD3 + dependencies 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zggsvd3.f"> 
+*> [TGZ]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zggsvd3.f"> 
+*> [ZIP]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zggsvd3.f"> 
 *> [TXT]</a>
-*> \endhtmlonly
+*> \endhtmlonly 
 *
 *  Definition:
 *  ===========
@@ -21,7 +21,7 @@
 *       SUBROUTINE ZGGSVD3( JOBU, JOBV, JOBQ, M, N, P, K, L, A, LDA, B,
 *                           LDB, ALPHA, BETA, U, LDU, V, LDV, Q, LDQ, WORK,
 *                           LWORK, RWORK, IWORK, INFO )
-*
+* 
 *       .. Scalar Arguments ..
 *       CHARACTER          JOBQ, JOBU, JOBV
 *       INTEGER            INFO, K, L, LDA, LDB, LDQ, LDU, LDV, M, N, P, LWORK
@@ -32,7 +32,7 @@
 *       COMPLEX*16         A( LDA, * ), B( LDB, * ), Q( LDQ, * ),
 *      $                   U( LDU, * ), V( LDV, * ), WORK( * )
 *       ..
-*
+*  
 *
 *> \par Purpose:
 *  =============
@@ -327,10 +327,10 @@
 *  Authors:
 *  ========
 *
-*> \author Univ. of Tennessee
-*> \author Univ. of California Berkeley
-*> \author Univ. of Colorado Denver
-*> \author NAG Ltd.
+*> \author Univ. of Tennessee 
+*> \author Univ. of California Berkeley 
+*> \author Univ. of Colorado Denver 
+*> \author NAG Ltd. 
 *
 *> \date August 2015
 *
@@ -353,7 +353,7 @@
      $                    LDB, ALPHA, BETA, U, LDU, V, LDV, Q, LDQ,
      $                    WORK, LWORK, RWORK, IWORK, INFO )
 *
-*  -- LAPACK driver routine (version 3.6.0) --
+*  -- LAPACK driver routine (version 3.6.1) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
 *     August 2015
@@ -507,18 +507,18 @@
 *
 *  =========== DOCUMENTATION ===========
 *
-* Online html documentation available at
-*            http://www.netlib.org/lapack/explore-html/
+* Online html documentation available at 
+*            http://www.netlib.org/lapack/explore-html/ 
 *
 *> \htmlonly
-*> Download ZGGSVP3 + dependencies
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zggsvp3.f">
-*> [TGZ]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zggsvp3.f">
-*> [ZIP]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zggsvp3.f">
+*> Download ZGGSVP3 + dependencies 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zggsvp3.f"> 
+*> [TGZ]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zggsvp3.f"> 
+*> [ZIP]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zggsvp3.f"> 
 *> [TXT]</a>
-*> \endhtmlonly
+*> \endhtmlonly 
 *
 *  Definition:
 *  ===========
@@ -526,7 +526,7 @@
 *       SUBROUTINE ZGGSVP3( JOBU, JOBV, JOBQ, M, P, N, A, LDA, B, LDB,
 *                           TOLA, TOLB, K, L, U, LDU, V, LDV, Q, LDQ,
 *                           IWORK, RWORK, TAU, WORK, LWORK, INFO )
-*
+* 
 *       .. Scalar Arguments ..
 *       CHARACTER          JOBQ, JOBU, JOBV
 *       INTEGER            INFO, K, L, LDA, LDB, LDQ, LDU, LDV, M, N, P, LWORK
@@ -538,7 +538,7 @@
 *       COMPLEX*16         A( LDA, * ), B( LDB, * ), Q( LDQ, * ),
 *      $                   TAU( * ), U( LDU, * ), V( LDV, * ), WORK( * )
 *       ..
-*
+*  
 *
 *> \par Purpose:
 *  =============
@@ -563,7 +563,7 @@
 *> where the K-by-K matrix A12 and L-by-L matrix B13 are nonsingular
 *> upper triangular; A23 is L-by-L upper triangular if M-K-L >= 0,
 *> otherwise A23 is (M-K)-by-L upper trapezoidal.  K+L = the effective
-*> numerical rank of the (M+P)-by-N matrix (A**H,B**H)**H.
+*> numerical rank of the (M+P)-by-N matrix (A**H,B**H)**H. 
 *>
 *> This decomposition is the preprocessing step for computing the
 *> Generalized Singular Value Decomposition (GSVD), see subroutine
@@ -756,10 +756,10 @@
 *  Authors:
 *  ========
 *
-*> \author Univ. of Tennessee
-*> \author Univ. of California Berkeley
-*> \author Univ. of Colorado Denver
-*> \author NAG Ltd.
+*> \author Univ. of Tennessee 
+*> \author Univ. of California Berkeley 
+*> \author Univ. of Colorado Denver 
+*> \author NAG Ltd. 
 *
 *> \date August 2015
 *
@@ -783,7 +783,7 @@
      $                    TOLA, TOLB, K, L, U, LDU, V, LDV, Q, LDQ,
      $                    IWORK, RWORK, TAU, WORK, LWORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.6.0) --
+*  -- LAPACK computational routine (version 3.6.1) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
 *     August 2015
@@ -1086,18 +1086,18 @@
 *
 *  =========== DOCUMENTATION ===========
 *
-* Online html documentation available at
-*            http://www.netlib.org/lapack/explore-html/
+* Online html documentation available at 
+*            http://www.netlib.org/lapack/explore-html/ 
 *
 *> \htmlonly
-*> Download ZTGSJA + dependencies
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/ztgsja.f">
-*> [TGZ]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/ztgsja.f">
-*> [ZIP]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/ztgsja.f">
+*> Download ZTGSJA + dependencies 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/ztgsja.f"> 
+*> [TGZ]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/ztgsja.f"> 
+*> [ZIP]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/ztgsja.f"> 
 *> [TXT]</a>
-*> \endhtmlonly
+*> \endhtmlonly 
 *
 *  Definition:
 *  ===========
@@ -1105,7 +1105,7 @@
 *       SUBROUTINE ZTGSJA( JOBU, JOBV, JOBQ, M, P, N, K, L, A, LDA, B,
 *                          LDB, TOLA, TOLB, ALPHA, BETA, U, LDU, V, LDV,
 *                          Q, LDQ, WORK, NCYCLE, INFO )
-*
+* 
 *       .. Scalar Arguments ..
 *       CHARACTER          JOBQ, JOBU, JOBV
 *       INTEGER            INFO, K, L, LDA, LDB, LDQ, LDU, LDV, M, N,
@@ -1117,7 +1117,7 @@
 *       COMPLEX*16         A( LDA, * ), B( LDB, * ), Q( LDQ, * ),
 *      $                   U( LDU, * ), V( LDV, * ), WORK( * )
 *       ..
-*
+*  
 *
 *> \par Purpose:
 *  =============
@@ -1430,10 +1430,10 @@
 *  Authors:
 *  ========
 *
-*> \author Univ. of Tennessee
-*> \author Univ. of California Berkeley
-*> \author Univ. of Colorado Denver
-*> \author NAG Ltd.
+*> \author Univ. of Tennessee 
+*> \author Univ. of California Berkeley 
+*> \author Univ. of Colorado Denver 
+*> \author NAG Ltd. 
 *
 *> \date November 2011
 *
@@ -1752,31 +1752,31 @@
 *
 *  =========== DOCUMENTATION ===========
 *
-* Online html documentation available at
-*            http://www.netlib.org/lapack/explore-html/
+* Online html documentation available at 
+*            http://www.netlib.org/lapack/explore-html/ 
 *
 *> \htmlonly
-*> Download ZLAGS2 + dependencies
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zlags2.f">
-*> [TGZ]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zlags2.f">
-*> [ZIP]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zlags2.f">
+*> Download ZLAGS2 + dependencies 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zlags2.f"> 
+*> [TGZ]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zlags2.f"> 
+*> [ZIP]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zlags2.f"> 
 *> [TXT]</a>
-*> \endhtmlonly
+*> \endhtmlonly 
 *
 *  Definition:
 *  ===========
 *
 *       SUBROUTINE ZLAGS2( UPPER, A1, A2, A3, B1, B2, B3, CSU, SNU, CSV,
 *                          SNV, CSQ, SNQ )
-*
+* 
 *       .. Scalar Arguments ..
 *       LOGICAL            UPPER
 *       DOUBLE PRECISION   A1, A3, B1, B3, CSQ, CSU, CSV
 *       COMPLEX*16         A2, B2, SNQ, SNU, SNV
 *       ..
-*
+*  
 *
 *> \par Purpose:
 *  =============
@@ -1895,10 +1895,10 @@
 *  Authors:
 *  ========
 *
-*> \author Univ. of Tennessee
-*> \author Univ. of California Berkeley
-*> \author Univ. of Colorado Denver
-*> \author NAG Ltd.
+*> \author Univ. of Tennessee 
+*> \author Univ. of California Berkeley 
+*> \author Univ. of Colorado Denver 
+*> \author NAG Ltd. 
 *
 *> \date November 2011
 *
@@ -1926,8 +1926,8 @@
       PARAMETER          ( ZERO = 0.0D+0, ONE = 1.0D+0 )
 *     ..
 *     .. Local Scalars ..
-      DOUBLE PRECISION   A, AUA11, AUA12, AUA21, AUA22, AVB12, AVB11,
-     $                   AVB21, AVB22, CSL, CSR, D, FB, FC, S1, S2,
+      DOUBLE PRECISION   A, AUA11, AUA12, AUA21, AUA22, AVB12, AVB11, 
+     $                   AVB21, AVB22, CSL, CSR, D, FB, FC, S1, S2, 
      $                   SNL, SNR, UA11R, UA22R, VB11R, VB22R
       COMPLEX*16         B, C, D1, R, T, UA11, UA12, UA21, UA22, VB11,
      $                   VB12, VB21, VB22
@@ -2151,24 +2151,24 @@
 *
 *  =========== DOCUMENTATION ===========
 *
-* Online html documentation available at
-*            http://www.netlib.org/lapack/explore-html/
+* Online html documentation available at 
+*            http://www.netlib.org/lapack/explore-html/ 
 *
 *> \htmlonly
-*> Download ZLAPLL + dependencies
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zlapll.f">
-*> [TGZ]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zlapll.f">
-*> [ZIP]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zlapll.f">
+*> Download ZLAPLL + dependencies 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zlapll.f"> 
+*> [TGZ]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zlapll.f"> 
+*> [ZIP]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zlapll.f"> 
 *> [TXT]</a>
-*> \endhtmlonly
+*> \endhtmlonly 
 *
 *  Definition:
 *  ===========
 *
 *       SUBROUTINE ZLAPLL( N, X, INCX, Y, INCY, SSMIN )
-*
+* 
 *       .. Scalar Arguments ..
 *       INTEGER            INCX, INCY, N
 *       DOUBLE PRECISION   SSMIN
@@ -2176,7 +2176,7 @@
 *       .. Array Arguments ..
 *       COMPLEX*16         X( * ), Y( * )
 *       ..
-*
+*  
 *
 *> \par Purpose:
 *  =============
@@ -2237,10 +2237,10 @@
 *  Authors:
 *  ========
 *
-*> \author Univ. of Tennessee
-*> \author Univ. of California Berkeley
-*> \author Univ. of Colorado Denver
-*> \author NAG Ltd.
+*> \author Univ. of Tennessee 
+*> \author Univ. of California Berkeley 
+*> \author Univ. of Colorado Denver 
+*> \author NAG Ltd. 
 *
 *> \date September 2012
 *
@@ -2320,31 +2320,31 @@
 *
 *  =========== DOCUMENTATION ===========
 *
-* Online html documentation available at
-*            http://www.netlib.org/lapack/explore-html/
+* Online html documentation available at 
+*            http://www.netlib.org/lapack/explore-html/ 
 *
 *> \htmlonly
-*> Download ZGERQ2 + dependencies
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zgerq2.f">
-*> [TGZ]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zgerq2.f">
-*> [ZIP]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zgerq2.f">
+*> Download ZGERQ2 + dependencies 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zgerq2.f"> 
+*> [TGZ]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zgerq2.f"> 
+*> [ZIP]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zgerq2.f"> 
 *> [TXT]</a>
-*> \endhtmlonly
+*> \endhtmlonly 
 *
 *  Definition:
 *  ===========
 *
 *       SUBROUTINE ZGERQ2( M, N, A, LDA, TAU, WORK, INFO )
-*
+* 
 *       .. Scalar Arguments ..
 *       INTEGER            INFO, LDA, M, N
 *       ..
 *       .. Array Arguments ..
 *       COMPLEX*16         A( LDA, * ), TAU( * ), WORK( * )
 *       ..
-*
+*  
 *
 *> \par Purpose:
 *  =============
@@ -2411,10 +2411,10 @@
 *  Authors:
 *  ========
 *
-*> \author Univ. of Tennessee
-*> \author Univ. of California Berkeley
-*> \author Univ. of Colorado Denver
-*> \author NAG Ltd.
+*> \author Univ. of Tennessee 
+*> \author Univ. of California Berkeley 
+*> \author Univ. of Colorado Denver 
+*> \author NAG Ltd. 
 *
 *> \date September 2012
 *
@@ -2514,24 +2514,24 @@
 *
 *  =========== DOCUMENTATION ===========
 *
-* Online html documentation available at
-*            http://www.netlib.org/lapack/explore-html/
+* Online html documentation available at 
+*            http://www.netlib.org/lapack/explore-html/ 
 *
 *> \htmlonly
-*> Download ZLAPMT + dependencies
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zlapmt.f">
-*> [TGZ]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zlapmt.f">
-*> [ZIP]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zlapmt.f">
+*> Download ZLAPMT + dependencies 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zlapmt.f"> 
+*> [TGZ]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zlapmt.f"> 
+*> [ZIP]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zlapmt.f"> 
 *> [TXT]</a>
-*> \endhtmlonly
+*> \endhtmlonly 
 *
 *  Definition:
 *  ===========
 *
 *       SUBROUTINE ZLAPMT( FORWRD, M, N, X, LDX, K )
-*
+* 
 *       .. Scalar Arguments ..
 *       LOGICAL            FORWRD
 *       INTEGER            LDX, M, N
@@ -2540,7 +2540,7 @@
 *       INTEGER            K( * )
 *       COMPLEX*16         X( LDX, * )
 *       ..
-*
+*  
 *
 *> \par Purpose:
 *  =============
@@ -2604,10 +2604,10 @@
 *  Authors:
 *  ========
 *
-*> \author Univ. of Tennessee
-*> \author Univ. of California Berkeley
-*> \author Univ. of Colorado Denver
-*> \author NAG Ltd.
+*> \author Univ. of Tennessee 
+*> \author Univ. of California Berkeley 
+*> \author Univ. of Colorado Denver 
+*> \author NAG Ltd. 
 *
 *> \date September 2012
 *
@@ -2717,25 +2717,25 @@
 *
 *  =========== DOCUMENTATION ===========
 *
-* Online html documentation available at
-*            http://www.netlib.org/lapack/explore-html/
+* Online html documentation available at 
+*            http://www.netlib.org/lapack/explore-html/ 
 *
 *> \htmlonly
-*> Download ZUNMR2 + dependencies
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zunmr2.f">
-*> [TGZ]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zunmr2.f">
-*> [ZIP]</a>
-*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zunmr2.f">
+*> Download ZUNMR2 + dependencies 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.tgz?format=tgz&filename=/lapack/lapack_routine/zunmr2.f"> 
+*> [TGZ]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.zip?format=zip&filename=/lapack/lapack_routine/zunmr2.f"> 
+*> [ZIP]</a> 
+*> <a href="http://www.netlib.org/cgi-bin/netlibfiles.txt?format=txt&filename=/lapack/lapack_routine/zunmr2.f"> 
 *> [TXT]</a>
-*> \endhtmlonly
+*> \endhtmlonly 
 *
 *  Definition:
 *  ===========
 *
 *       SUBROUTINE ZUNMR2( SIDE, TRANS, M, N, K, A, LDA, TAU, C, LDC,
 *                          WORK, INFO )
-*
+* 
 *       .. Scalar Arguments ..
 *       CHARACTER          SIDE, TRANS
 *       INTEGER            INFO, K, LDA, LDC, M, N
@@ -2743,7 +2743,7 @@
 *       .. Array Arguments ..
 *       COMPLEX*16         A( LDA, * ), C( LDC, * ), TAU( * ), WORK( * )
 *       ..
-*
+*  
 *
 *> \par Purpose:
 *  =============
@@ -2861,10 +2861,10 @@
 *  Authors:
 *  ========
 *
-*> \author Univ. of Tennessee
-*> \author Univ. of California Berkeley
-*> \author Univ. of Colorado Denver
-*> \author NAG Ltd.
+*> \author Univ. of Tennessee 
+*> \author Univ. of California Berkeley 
+*> \author Univ. of Colorado Denver 
+*> \author NAG Ltd. 
 *
 *> \date September 2012
 *

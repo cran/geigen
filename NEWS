@@ -1,3 +1,9 @@
+1.9.1
+
+o moved zheg* routines to separate file
+o updated Lapack routines to version 3.6.1
+o documentation tweaks
+
 1.9
 
 o update to routines from Lapack 3.6.0 and use new gsvd routines
