@@ -12,7 +12,7 @@ c     .. Array Arguments ..
      *                   b(n, *), beta(*), vl(ldvl, *),
      *                   vr(ldvr, *), work(*)
 
-      character*2        cjobv
+      character(2)       cjobv
       parameter(cjobv='NV')
       character          jobvl, jobvr
 
@@ -36,7 +36,7 @@ c     ..
 c     .. Array Arguments ..
       double precision   a(n, *), b(n, *), w(*), work(*)
 
-      character*2        cjobz,cjobul
+      character(2)       cjobz,cjobul
       parameter(cjobz='NV', cjobul='UL')
       character          jobz, uplo
 

@@ -12,13 +12,13 @@ c     ..
 c     .. array arguments ..
       integer            iwork(*)
       double precision   alpha(*), beta(*), rwork(*)
-      complex*16         a(lda, *), b(ldb, *),
+      double complex     a(lda, *), b(ldb, *),
      *                   q(ldq, *), u(ldu, *),
      *                   v(ldv, *), work( *)
 
-      character*2  cjobu, cjobv,cjobq
+      character(2)  cjobu, cjobv,cjobq
       parameter(cjobu='UN',cjobv='VN', cjobq='QN')
-      character*1  jobq, jobu, jobv
+      character     jobq, jobu, jobv
 
 c     select job parameters
       jobu = cjobu(kjobu:kjobu)

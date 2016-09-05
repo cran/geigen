@@ -1,3 +1,9 @@
+1.9.2
+
+o in all files src/x*.f obsolescent Fortran character* declarations replaced
+o in all files src/x*.f use <double complex> instead of <complex*16> but
+  Lapack routines using <complex*16> have not been changed
+
 1.9.1
 
 o moved zheg* routines to separate file

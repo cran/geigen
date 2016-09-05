@@ -1,4 +1,4 @@
-The files in src/{zggesall,zggevall,zggevdeps}.f contain code extracted from LAPACK 3.6.1
+The files in src/{zggesall,zggevall,zggevsdeps,zhegall}.f contain code extracted from LAPACK 3.6.1
 The files in src/zggsvdall.f contain code extracted from Lapack 3.6.1 (see NEWS for info)
 The files src/{dggsvd3.f,dggsvp3.f} have been taken from Lapack 3.6.1
 The licence of LAPACK may be found here: http://www.netlib.org/lapack/LICENSE.txt

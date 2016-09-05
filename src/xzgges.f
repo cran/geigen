@@ -20,8 +20,8 @@ c     .. Function Arguments ..
       logical            zelctg,zevzero,zrevneg,zrevpos,zevudi,zevudo
       external           zelctg,zevzero,zrevneg,zrevpos,zevudi,zevudo
 
-      character*2        cjobv
-      character*6        cevsort
+      character(2)       cjobv
+      character(6)       cevsort
       parameter(cjobv='NV', cevsort='N-+SBR')
       character          jobvsl, jobvsr, evsort
 
@@ -78,7 +78,7 @@ c real eigenvalue
       double precision Rzero, Rtol
       parameter(Rzero=0.0d0, Rtol=100.0d0)
       double precision dlamch
-      
+
       if(dble(beta) .eq. Rzero .and. dimag(beta) .eq. Rzero ) then
           zevzero = .false.
       else
@@ -126,7 +126,7 @@ c abs(ev) > 1
       double complex alpha,beta
       double precision Rzero
       parameter(Rzero=0.0d0)
-      
+
       if(dble(beta) .eq. Rzero .and. dimag(beta) .eq. Rzero ) then
           zevudo = .false.
       else

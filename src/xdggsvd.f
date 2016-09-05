@@ -20,9 +20,9 @@ c     .. array arguments ..
      *                   beta(*), q(ldq, *), u(ldu, *),
      *                   v(ldv, *), work( *)
 
-      character*2  cjobu, cjobv,cjobq
+      character(2)  cjobu, cjobv,cjobq
       parameter(cjobu='UN',cjobv='VN', cjobq='QN')
-      character*1  jobq, jobu, jobv
+      character     jobq, jobu, jobv
 
 c     select job parameters
       jobu = cjobu(kjobu:kjobu)

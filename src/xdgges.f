@@ -19,8 +19,8 @@ c     .. Function Arguments ..
       logical            selctg,evzero,revneg,revpos,evudi,evudo
       external           selctg,evzero,revneg,revpos,evudi,evudo
 
-      character*2        cjobv
-      character*6        cevsort
+      character(2)       cjobv
+      character(6)       cevsort
       parameter(cjobv='NV', cevsort='N-+SBR')
       character          jobvsl, jobvsr, evsort
 
