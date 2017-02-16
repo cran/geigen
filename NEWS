@@ -1,3 +1,9 @@
+2.0
+
+o register native routines in dll
+o added NeedsCompilation field to DESCRIPTION
+o use subroutines from Lapack 3.7.0 (no differences in actual code)
+
 1.9.2
 
 o in all files src/x*.f obsolescent Fortran character* declarations replaced
@@ -46,8 +52,8 @@ o fix some ftnchek warning/error messages
 o added function for computing generalized eigenvalues from a generalized Schur decomposition
 o introduced S3 classes and methods for calculating generalized
   eigenvalues from the generalized Schur decomposition
-o documentation tweaks and clarifications
 o added Copyright field in DESCRIPTION
+o documentation tweaks and clarifications
 
 1.2
 

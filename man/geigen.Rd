@@ -52,7 +52,7 @@ A list containing components
   \code{geigen} uses the LAPACK routines \code{DGGEV},
   \code{DSYGV}, \code{ZHEGV} and \code{ZGGEV}.
   LAPACK is from \url{http://www.netlib.org/lapack}.
-  The complex routines used by the package come from LAPACK 3.6.1.
+  The complex routines used by the package come from LAPACK 3.7.0.
 }
 \references{
   Anderson. E. and ten others (1999)

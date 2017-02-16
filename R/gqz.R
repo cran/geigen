@@ -55,18 +55,18 @@ geigen.xdgges <- function(A,B, ksort) {
     sdim  <- 0L
     bwork <- logical(n)
 
-    z <- .Fortran("xdgges", kjobvsl, kjobvsr, ksort,
+    z <- .Fortran(F_xdgges, kjobvsl, kjobvsr, ksort,
                             n, A, B, sdim, numeric(1), numeric(1),
                             numeric(1), numeric(1), numeric(1),
-                            work=work, lwork, bwork, info=integer(1L), PACKAGE="geigen")
+                            work=work, lwork, bwork, info=integer(1L))
     lwork <- as.integer(z$work[1])
     lwork <- max(lwork, as.integer(8*n+16))
     work  <- numeric(lwork)
 
-    z <- .Fortran("xdgges", kjobvsl, kjobvsr, ksort,
+    z <- .Fortran(F_xdgges, kjobvsl, kjobvsr, ksort,
                             n, A=A, B=B, sdim=sdim, alphar=numeric(n), alphai=numeric(n),
                             beta=numeric(n), vsl=matrix(0,nrow=n,ncol=n), vsr=matrix(0,nrow=n,ncol=n),
-                            work, lwork, bwork, info=integer(1L), PACKAGE="geigen")
+                            work, lwork, bwork, info=integer(1L))
 
     if( z$info != 0 ) .gges_Lapackerror(z$info,n)
 
@@ -77,7 +77,7 @@ geigen.xdgges <- function(A,B, ksort) {
 
 gevalues.xdgges <- function(x) {
     if(!inherits(x,"xdgges")) stop("gevalues only accepts an object constructed with gqz")
-    
+
     if( all(x$alphai==0) ) {
         ret <- x$alphar/x$beta
     } else {
@@ -112,10 +112,10 @@ geigen.xzgges <- function(A,B, ksort) {
     sdim  <- 0L
     bwork <- logical(n)
 
-    z <- .Fortran("xzgges", kjobvsl, kjobvsr, ksort,
+    z <- .Fortran(F_xzgges, kjobvsl, kjobvsr, ksort,
                             n, A, B, sdim, complex(1), complex(1),
                             complex(1), complex(1),
-                            work=work, lwork, numeric(1), bwork, info=integer(1L), PACKAGE="geigen")
+                            work=work, lwork, numeric(1), bwork, info=integer(1L))
     lwork <- as.integer(Re(z$work[1]))
     lwork <- max(lwork, as.integer(8*n+16))
     work  <- complex(lwork)
@@ -123,10 +123,10 @@ geigen.xzgges <- function(A,B, ksort) {
     rwork <- numeric(8*n)
     tmp <- 0+0i
 
-    z <- .Fortran("xzgges", kjobvsl, kjobvsr, ksort,
+    z <- .Fortran(F_xzgges, kjobvsl, kjobvsr, ksort,
                             n, A=A, B=B, sdim=sdim, alpha=complex(n),
                             beta=complex(n), vsl=matrix(tmp,nrow=n,ncol=n), vsr=matrix(tmp,nrow=n,ncol=n),
-                            work, lwork, rwork, bwork, info=integer(1L), PACKAGE="geigen")
+                            work, lwork, rwork, bwork, info=integer(1L))
 
     if( z$info != 0 ) .gges_Lapackerror(z$info,n)
 
@@ -136,12 +136,12 @@ geigen.xzgges <- function(A,B, ksort) {
 }
 
 print.xzgges <- function(x, ...) {
-    print(unclass(x), ...) 
+    print(unclass(x), ...)
     invisible(x)
 }
 
 gevalues.xzgges <- function(x) {
     if(!inherits(x,"xzgges")) stop("gevalues only accepts an object constructed with gqz")
-    
+
     ret <- complexdiv(x$alpha,x$beta)
 }

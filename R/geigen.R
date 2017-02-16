@@ -70,7 +70,7 @@ geigen.dggev <- function(A,B, only.values=FALSE) {
     # calculate optimal workspace
     lwork <- -1L
     work  <- numeric(1)
-    z <- .Fortran("xdggev", kjobvl, kjobvr, n, A, B, numeric(1), numeric(1),
+    z <- .Fortran(F_xdggev, kjobvl, kjobvr, n, A, B, numeric(1), numeric(1),
                             numeric(1), numeric(1), 1L, numeric(1), n,
                             work=work, lwork,info=integer(1L))
     lwork <- as.integer(z$work[1])
@@ -78,13 +78,13 @@ geigen.dggev <- function(A,B, only.values=FALSE) {
     work  <- numeric(lwork)
 
     if( !only.values )
-        z <- .Fortran("xdggev", kjobvl, kjobvr, n, A, B, alphar=numeric(n), alphai=numeric(n),
+        z <- .Fortran(F_xdggev, kjobvl, kjobvr, n, A, B, alphar=numeric(n), alphai=numeric(n),
                                 beta=numeric(n), numeric(1),1L, vr=matrix(0,nrow=n,ncol=n), n,
-                                work, lwork,info=integer(1L), PACKAGE="geigen")
+                                work, lwork,info=integer(1L))
     else
-        z <- .Fortran("xdggev", kjobvl, kjobvr, n, A, B, alphar=numeric(n), alphai=numeric(n),
+        z <- .Fortran(F_xdggev, kjobvl, kjobvr, n, A, B, alphar=numeric(n), alphai=numeric(n),
                                 beta=numeric(n), numeric(1), 1L,  numeric(1), 1L,
-                                work, lwork,info=integer(1L), PACKAGE="geigen")
+                                work, lwork,info=integer(1L))
 
     if( z$info != 0 ) .ggev_Lapackerror(z$info,n)
 
@@ -101,11 +101,11 @@ geigen.dggev <- function(A,B, only.values=FALSE) {
         # alphai == 0 implies real eigenvalue
         # alphai  > 0 implies a complex conjugate pair of eigenvalues
         #             alphai[j] > 0 ==> alphai[j+1] < 0
-        
-        # use specialized complex division function in order to avoid NaN+NaNi 
+
+        # use specialized complex division function in order to avoid NaN+NaNi
         # on Mac OS X with the official R (because of broken gcc 4.2.X)
 
-        alpha  <- complex(real=z$alphar, imaginary=z$alphai) 
+        alpha  <- complex(real=z$alphar, imaginary=z$alphai)
         values <- complexdiv(alpha,z$beta)
 
         if( !only.values ) {
@@ -157,14 +157,14 @@ geigen.dsygv <- function(A,B, only.values=FALSE) {
     # calculate optimal workspace
     lwork <- -1L
     work  <- numeric(1)
-    z <- .Fortran("xdsygv", as.integer(ptype), kjobev, kuplo, n, numeric(1), numeric(1),
-                            numeric(1), work=work, lwork, info=integer(1L), PACKAGE="geigen")
+    z <- .Fortran(F_xdsygv, as.integer(ptype), kjobev, kuplo, n, numeric(1), numeric(1),
+                            numeric(1), work=work, lwork, info=integer(1L))
     lwork <- as.integer(z$work[1])
     lwork <- max(lwork, as.integer(3*n-1))
     work  <- numeric(lwork)
 
-    z <- .Fortran("xdsygv", as.integer(ptype), kjobev, kuplo, n, E=A, B,
-                            w=numeric(n), work, lwork, info=integer(1L), PACKAGE="geigen")
+    z <- .Fortran(F_xdsygv, as.integer(ptype), kjobev, kuplo, n, E=A, B,
+                            w=numeric(n), work, lwork, info=integer(1L))
 
     if( z$info != 0 ) .sygv_Lapackerror(z$info,n)
 
@@ -193,9 +193,9 @@ geigen.zggev <- function(A,B, only.values=FALSE) {
     lwork <- -1L
     work  <- complex(1)
     rwork <- numeric(1)
-    z <- .Fortran("xzggev", kjobvl, kjobvr, n, A, B, complex(1), complex(1),
+    z <- .Fortran(F_xzggev, kjobvl, kjobvr, n, A, B, complex(1), complex(1),
                            complex(1), n, complex(1), n,
-                           work=work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
+                           work=work, lwork, rwork, info=integer(1L))
     lwork <- as.integer(Re(z$work[1]))
     lwork <- max(lwork, as.integer(2*n))
     work  <- complex(lwork)
@@ -204,13 +204,13 @@ geigen.zggev <- function(A,B, only.values=FALSE) {
     tmp <- 0+0i
 
     if( !only.values )
-        z <- .Fortran("xzggev", kjobvl, kjobvr, n, A, B, alpha=complex(n),
+        z <- .Fortran(F_xzggev, kjobvl, kjobvr, n, A, B, alpha=complex(n),
                                beta=complex(n), numeric(1),1L, vr=matrix(tmp,nrow=n,ncol=n), n,
-                               work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
+                               work, lwork, rwork, info=integer(1L))
     else
-        z <- .Fortran("xzggev", kjobvl, kjobvr, n, A, B, alpha=complex(n),
+        z <- .Fortran(F_xzggev, kjobvl, kjobvr, n, A, B, alpha=complex(n),
                                beta=complex(n), numeric(1), 1L,  numeric(1), 1L,
-                               work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
+                               work, lwork, rwork, info=integer(1L))
 
     if( z$info != 0 ) .ggev_Lapackerror(z$info,n)
 
@@ -258,16 +258,16 @@ geigen.zhegv <- function(A,B, only.values=FALSE) {
     # calculate optimal workspace
     lwork <- -1L
     work  <- complex(1)
-    z <- .Fortran("xzhegv", as.integer(ptype), kjobev, kuplo, n, complex(1), complex(1),
-                           w=numeric(1), work=work, lwork,  numeric(1), info=integer(1L), PACKAGE="geigen")
+    z <- .Fortran(F_xzhegv, as.integer(ptype), kjobev, kuplo, n, complex(1), complex(1),
+                           w=numeric(1), work=work, lwork,  numeric(1), info=integer(1L))
     lwork <- as.integer(Re(z$work[1]))
     lwork <- max(lwork, as.integer(2*n-1))
     work  <- complex(lwork)
 
     rwork <- numeric(3*n-2)
 
-    z <- .Fortran("xzhegv", as.integer(ptype), kjobev, kuplo, n, E=A, B,
-                           w=numeric(n), work, lwork, rwork, info=integer(1L), PACKAGE="geigen")
+    z <- .Fortran(F_xzhegv, as.integer(ptype), kjobev, kuplo, n, E=A, B,
+                           w=numeric(n), work, lwork, rwork, info=integer(1L))
 
     if( z$info != 0 ) .sygv_Lapackerror(z$info,n)
 

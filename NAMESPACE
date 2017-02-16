@@ -1,4 +1,4 @@
-useDynLib(geigen)
+useDynLib(geigen, .registration=TRUE, .fixes="F_")
 S3method(gevalues,xdgges)
 S3method(gevalues,xzgges)
 S3method(print,xdgges)
