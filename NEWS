@@ -1,3 +1,8 @@
+2.1
+
+o clarification in documentation of geigen about when the second matrix must be positive definite.
+o corrected documentation of gqz; matrices need not be positive definite.
+
 2.0
 
 o register native routines in dll

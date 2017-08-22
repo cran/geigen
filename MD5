@@ -1,6 +1,6 @@
-3bb3210542ce1ef90755147ceacc633c *DESCRIPTION
+d743fe5ddd6196f923fc40bbf8479d53 *DESCRIPTION
 12e12fa419b306ca5bc5d428cf56e331 *NAMESPACE
-4340deac93fd7afcdac517718b354388 *NEWS
+4771163970ad15b6f05c67be39e32ae5 *NEWS
 ddc0f48e1c42c7a0a2a9cc4ce45550e8 *R/cmplxdiv.R
 54cd5ce7010a21bad273ff1474203196 *R/geigen.R
 188c0f645e6619db22619194b59d7c59 *R/gevalues.R
@@ -9,9 +9,9 @@ ddc0f48e1c42c7a0a2a9cc4ce45550e8 *R/cmplxdiv.R
 30eaaa0032c6fd13187d1b8f4d5327c9 *R/lapackerror.R
 38c8a76d31a90ce6c6571c9988c709ba *inst/COPYRIGHTS
 c5ee9c4560a2c5907b4e227612268add *man/geigen-package.Rd
-93ec1f608cce798079952c4555c2ef26 *man/geigen.Rd
+d141c8ed80f103c9e5f865ab4420f317 *man/geigen.Rd
 aa766caafe94d49edd54960358bdec71 *man/gevalues.Rd
-28075e43b50f22b07f0c0a34a0cc4200 *man/gqz.Rd
+fbd79ba06170befa3f2a8a472e533fe8 *man/gqz.Rd
 6179b03cd759fd8c703871c3822041db *man/gsvd.Rd
 cf5f1b6c73732800eb1b229365cc0833 *man/gsvdaux.Rd
 19f697421153daf253b75d22ef674876 *src/Makevars

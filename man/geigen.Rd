@@ -24,7 +24,18 @@ Both matrices must be square.
 This function provides the solution to the generalized eigenvalue problem defined by
 \deqn{A x = \lambda Bx}{A*x = lambda B*x}
 If either one of the matrices is complex the other matrix is coerced to be complex.
-If the matrices are complex and Hermitian then the matrix \code{B} must be positive definite.
+
+If the matrices are symmetric then the matrix \code{B} must be positive definite; if it is not
+an error message will be issued.
+If the matrix \code{B} is known to be symmetric but not positive definite then the argument
+\code{symmetric} should be set to \code{FALSE} explicitly.
+
+If the matrix \code{B} is not positive definite when it should be an
+error message of the form
+
+\code{    Leading minor of order ... of B is not positive definite}
+
+will be issued. In that case set the argument \code{symmetric} to \code{FALSE} if not set and try again.
 
 For general matrices the generalized eigenvalues \eqn{\lambda}{lambda}
 are calculated as the ratio \eqn{\alpha / \beta}{alpha/beta}
@@ -62,6 +73,12 @@ A list containing components
   See the section \emph{Generalized Eigenvalue and Singular Value Problems}
   (\url{http://www.netlib.org/lapack/lug/node33.html}).
 }
+
+%\section{Warning}{If the matrix \code{B} is not positive definite when it should be an
+%error message of the form
+%\preformatted{    Leading minor of order ... of B is not positive definite}
+%will be issued. In that case set the argument \code{symmetric} to \code{FALSE} if not set and try again.}
+
 \seealso{
   \code{eigen}
 }

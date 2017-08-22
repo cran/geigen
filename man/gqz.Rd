@@ -16,7 +16,6 @@ Both matrices must be square.
 This function provides the solution to the generalized eigenvalue problem defined by
 \deqn{A x = \lambda Bx}{A*x = lambda B*x}
 If either one of the matrices is complex the other matrix is coerced to be complex.
-If the matrices are complex and Hermitian then the matrix \code{B} must be positive definite.
 
 The \code{sort} argument specifies how to order the eigenvalues on the
 diagonal of the generalized Schur form, where it is noted that non-finite eigenvalues never
