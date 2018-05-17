@@ -701,7 +701,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
+*> \date November 2017
 *
 *> \ingroup complex16GEauxiliary
 *
@@ -714,10 +714,10 @@
 *  =====================================================================
       SUBROUTINE ZGESC2( N, A, LDA, RHS, IPIV, JPIV, SCALE )
 *
-*  -- LAPACK auxiliary routine (version 3.7.0) --
+*  -- LAPACK auxiliary routine (version 3.8.0) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
+*     November 2017
 *
 *     .. Scalar Arguments ..
       INTEGER            LDA, N
@@ -740,7 +740,7 @@
       COMPLEX*16         TEMP
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           ZLASWP, ZSCAL
+      EXTERNAL           ZLASWP, ZSCAL, DLABAD
 *     ..
 *     .. External Functions ..
       INTEGER            IZAMAX
@@ -912,7 +912,7 @@
 *  =====================================================================
       SUBROUTINE ZGETC2( N, A, LDA, IPIV, JPIV, INFO )
 *
-*  -- LAPACK auxiliary routine (version 3.7.0) --
+*  -- LAPACK auxiliary routine (version 3.8.0) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
 *     June 2016
@@ -936,7 +936,7 @@
       DOUBLE PRECISION   BIGNUM, EPS, SMIN, SMLNUM, XMAX
 *     ..
 *     .. External Subroutines ..
-      EXTERNAL           ZGERU, ZSWAP
+      EXTERNAL           ZGERU, ZSWAP, DLABAD
 *     ..
 *     .. External Functions ..
       DOUBLE PRECISION   DLAMCH
@@ -1434,7 +1434,7 @@
 *>
 *> \param[in,out] A
 *> \verbatim
-*>          A is COMPLEX*16 arrays, dimensions (LDA,N)
+*>          A is COMPLEX*16 array, dimensions (LDA,N)
 *>          On entry, the matrix A in the pair (A, B).
 *>          On exit, the updated matrix A.
 *> \endverbatim
@@ -1447,7 +1447,7 @@
 *>
 *> \param[in,out] B
 *> \verbatim
-*>          B is COMPLEX*16 arrays, dimensions (LDB,N)
+*>          B is COMPLEX*16 array, dimensions (LDB,N)
 *>          On entry, the matrix B in the pair (A, B).
 *>          On exit, the updated matrix B.
 *> \endverbatim
@@ -1460,7 +1460,7 @@
 *>
 *> \param[in,out] Q
 *> \verbatim
-*>          Q is COMPLEX*16 array, dimension (LDZ,N)
+*>          Q is COMPLEX*16 array, dimension (LDQ,N)
 *>          If WANTQ = .TRUE, on entry, the unitary matrix Q. On exit,
 *>          the updated matrix Q.
 *>          Not referenced if WANTQ = .FALSE..
@@ -1511,7 +1511,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
+*> \date June 2017
 *
 *> \ingroup complex16GEauxiliary
 *
@@ -1548,10 +1548,10 @@
       SUBROUTINE ZTGEX2( WANTQ, WANTZ, N, A, LDA, B, LDB, Q, LDQ, Z,
      $                   LDZ, J1, INFO )
 *
-*  -- LAPACK auxiliary routine (version 3.7.0) --
+*  -- LAPACK auxiliary routine (version 3.7.1) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
+*     June 2017
 *
 *     .. Scalar Arguments ..
       LOGICAL            WANTQ, WANTZ
@@ -1827,7 +1827,7 @@
 *>
 *> \param[in,out] Q
 *> \verbatim
-*>          Q is COMPLEX*16 array, dimension (LDZ,N)
+*>          Q is COMPLEX*16 array, dimension (LDQ,N)
 *>          On entry, if WANTQ = .TRUE., the unitary matrix Q.
 *>          On exit, the updated matrix Q.
 *>          If WANTQ = .FALSE., Q is not referenced.
@@ -1888,7 +1888,7 @@
 *> \author Univ. of Colorado Denver
 *> \author NAG Ltd.
 *
-*> \date December 2016
+*> \date June 2017
 *
 *> \ingroup complex16GEcomputational
 *
@@ -1925,10 +1925,10 @@
       SUBROUTINE ZTGEXC( WANTQ, WANTZ, N, A, LDA, B, LDB, Q, LDQ, Z,
      $                   LDZ, IFST, ILST, INFO )
 *
-*  -- LAPACK computational routine (version 3.7.0) --
+*  -- LAPACK computational routine (version 3.7.1) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
-*     December 2016
+*     June 2017
 *
 *     .. Scalar Arguments ..
       LOGICAL            WANTQ, WANTZ
@@ -2097,7 +2097,7 @@
 *
 *> \param[in] IJOB
 *> \verbatim
-*>          IJOB is integer
+*>          IJOB is INTEGER
 *>          Specifies whether condition numbers are required for the
 *>          cluster of eigenvalues (PL and PR) or the deflating subspaces
 *>          (Difu and Difl):
@@ -2458,7 +2458,7 @@
      $                   ALPHA, BETA, Q, LDQ, Z, LDZ, M, PL, PR, DIF,
      $                   WORK, LWORK, IWORK, LIWORK, INFO )
 *
-*  -- LAPACK computational routine (version 3.7.0) --
+*  -- LAPACK computational routine (version 3.7.1) --
 *  -- LAPACK is a software package provided by Univ. of Tennessee,    --
 *  -- Univ. of California Berkeley, Univ. of Colorado Denver and NAG Ltd..--
 *     June 2016

@@ -1,3 +1,9 @@
+2.2
+
+o changed package documentation .Rd to update metadata
+o updated lapack routines to version 3.8.0; many Fortran routines unchanged from Lapack 3.7.0.
+  Changes are minimal.
+
 2.1
 
 o clarification in documentation of geigen about when the second matrix must be positive definite.
