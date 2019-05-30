@@ -1,3 +1,8 @@
+2.3
+
+o removed various Lapack routines that are now included in the R Lapack sources.
+o changed dependency on the version of R (>= 3.5.0)
+
 2.2
 
 o changed package documentation .Rd to update metadata
